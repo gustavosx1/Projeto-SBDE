@@ -1,13 +1,27 @@
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+
+* {
+    font-family: "Nunito";
+    color: black;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: "Fjalla One" !important;
+}
+
 body {
-    font-family: Arial, sans-serif;
-    background-color: #e6f0ff;
+    background-color: #1e3231;
     color: #333;
     margin: 0;
     padding: 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+    display: block;
     height: 100vh;
+    width: 100vw;
 }
 
 .container {
@@ -20,42 +34,169 @@ body {
     text-align: center;
 }
 
+.acessibilidade>a {
+    width: 100%;
+    margin-top: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.acessibilidade>a>img {
+    /* margin: 20px auto; */
+    width: 20%;
+    filter: invert(1);
+}
+
+.acessibilidade>a>p {
+    margin-top: -2px;
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+}
+body>:first-child{
+    margin-top: 5%;
+}
+
+.topo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    /* background-color: #0056b3; */
+}
+
+.topo>img {
+    /* filter: drop-shadow(0px 0px 5px white); */
+    width: 40% !important;
+}
+
+.voltar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    margin-left: 5px;
+}
+
+.voltar>a {
+    width: 12%;
+}
+
+.voltar img {
+    width: 100%;
+    filter: invert(1);
+}
+
+.voltar p {
+    font-size: 20px;
+    margin-top: -5px;
+    color: white;
+}
+
+.input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
 h1 {
-    color: #0056b3;
+    font-size: 20vw;
+    text-align: center;
+    margin: 50px auto;
+    color: white;
+}
+
+h2 {
+    font-size: 10vw;
+    text-align: center;
+    margin: 20px auto;
+    color: white;
 }
 
 form {
     display: flex;
     flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 80%;
+}
+
+.info {
+    width: 100%;
+    /* display: block; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 50px;
 }
 
 label {
-    margin-bottom: 5px;
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 0 5px 0;
     font-weight: bold;
+    width: 100%;
+    color: white;
+    font-size: 20px;
+}
+.codigo{
+    display: flex;
+}
+.codigo>button{
+    font-size: 20px;
 }
 
+.aviso{
+    margin: 0;
+    color: white;
+}
 input {
-    margin-bottom: 15px;
-    padding: 10px;
-    border: 1px solid #ccc;
-    border-radius: 4px;
+    margin: 0 0 15px 0;
+    width: 100%;
+    border-radius: 15px;
+    border: solid 3px black;
+    padding: 10px 5px;
+    font-size: 20px;
 }
 
-button {
+button,
+.button {
+    text-align: center;
+    display: block;
     background-color: #0056b3;
     color: white;
     padding: 10px;
     border: none;
-    border-radius: 4px;
+    border-radius: 30px !important;
     cursor: pointer;
+    margin: 20px auto;
+    width: 70%;
+    filter: drop-shadow(0px 5px rgb(174, 174, 174));
+    font-size: 35px;
+    font-weight: bold;
 }
 
-button:hover {
-    background-color: #004080;
+.btwhite {
+    background-color: #fafafa;
+    color: black
+}
+
+div.entrar {
+    display: block;
+    margin: auto;
+    /* background-color: aqua; */
+    /* padding: auto; */
+    width: 80%;
 }
 
 a {
-    color: #0056b3;
+    color:#2f9e41;
     text-decoration: none;
     margin-top: 10px;
     display: inline-block;

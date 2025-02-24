@@ -1,19 +1,27 @@
 <?php
+session_start();
+if (isset($_SESSION['usuario_id'])) {
+    header("Location: dashboard.php");
+    exit();
+}
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require 'conexao.php';
 
-    $nome = $_POST['nome'];
     $email = $_POST['email'];
-    $matricula = $_POST['matricula'];
-    $senha = password_hash($_POST['senha'], PASSWORD_BCRYPT);
+    $senha = $_POST['senha'];
 
-    try {
-        $stmt = $pdo->prepare("INSERT INTO usuarios (nome, email, matricula, senha) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$nome, $email, $matricula, $senha]);
-        header("Location: index.php");
+    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
+    $stmt->execute([$email]);
+    $usuario = $stmt->fetch();
+
+    if ($usuario && password_verify($senha, $usuario['senha'])) {
+        $_SESSION['usuario_id'] = $usuario['id'];
+        $_SESSION['usuario_nome'] = $usuario['nome'];
+        header("Location: dashboard.php");
         exit();
-    } catch (PDOException $e) {
-        $erro = "Erro ao cadastrar: " . $e->getMessage();
+    } else {
+        $erro = "Email ou senha incorretos.";
     }
 }
 ?>
@@ -24,7 +32,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - Restaurante Universitário</title>
+    <title>Login - Restaurante Universitário</title>
     <link rel="stylesheet" href="style.css">
 </head>
 
@@ -40,27 +48,24 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="topo">
         <img src="midia/QrMeal1.png" alt="">
     </div>
+    <h2>Login</h2>
     <div class="info">
-        <h2>Cadastro</h2>
         <?php if (isset($erro)): ?>
             <p class="erro"><?php echo $erro; ?></p>
         <?php endif; ?>
+        <!-- <div class="input"> -->
         <form method="POST">
-            <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
-
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
-
-            <label for="matricula">Matrícula:</label>
-            <input type="text" id="matricula" name="matricula" required>
 
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required>
 
-            <p class="aviso">Já tem uma conta? <a href="index.php">Faça login</a></p>
-            <button class="btwhite" type="submit">Cadastrar</button>
+            <a href="codigoSenha.php">Esqueceu a senha?</a>
+            <button class="btwhite" type="submit">Entrar</button>
         </form>
+        <p class="aviso">Não tem uma conta? <a href="cadastro.php">Cadastre-se</a></p>
+        <!-- </div> -->
     </div>
 </body>
 
