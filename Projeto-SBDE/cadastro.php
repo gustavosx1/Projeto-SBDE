@@ -26,6 +26,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Restaurante Universitário</title>
     <link rel="stylesheet" href="style.css">
+    <?php include 'config.php' ?>
 </head>
 
 <body>

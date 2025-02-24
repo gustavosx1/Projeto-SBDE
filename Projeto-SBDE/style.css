@@ -1,5 +1,9 @@
 @import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
 
+:root {
+    --cor-fundo-normal: rgb(30, 50, 49);
+}
+
 * {
     font-family: "Nunito";
     color: black;
@@ -15,7 +19,7 @@ h6 {
 }
 
 body {
-    background-color: #1e3231;
+    background-color: var(--cor-fundo-normal);
     color: #333;
     margin: 0;
     padding: 0;
