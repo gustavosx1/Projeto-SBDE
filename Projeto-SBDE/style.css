@@ -1,4 +1,4 @@
-@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Nunito:ital,wght@0,200..1000;1,200..1000&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Onest:wght@100..900&display=swap');
 
 :root {
     --cor-fundo-normal: rgb(30, 50, 49);
@@ -11,11 +11,20 @@
 
 h1,
 h2,
-h3,
 h4,
 h5,
 h6 {
     font-family: "Fjalla One" !important;
+}
+
+h3 {
+    font-size: 10vw;
+    text-align: center;
+    margin: -1px;
+    padding: 20px !important;
+    color: black;
+    font-weight:800 !important;
+    font-family: "Onest" !important;
 }
 
 body {
@@ -60,13 +69,14 @@ body {
     font-weight: bold;
     color: white;
 }
-body>:first-child{
-    margin-top: 5%;
+
+.padtop{
+    padding-top: 10% !important;
 }
 
 .topo {
     display: flex;
-    flex-direction: column;
+    /* flex-direction: column; */
     align-items: center;
     justify-content: center;
     width: 100vw;
@@ -90,6 +100,29 @@ body>:first-child{
 .voltar>a {
     width: 12%;
 }
+#sair {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    margin-right: 20px;
+    justify-content: center;
+    width: 100%;
+    margin-left: 5px;
+}
+
+.white{
+    background-color: white !important;
+}
+
+#sair>img {
+    width: 12%;
+}
+#sair>p {
+    margin-top: 0px;
+    font-size: 20px;
+    font-weight: bold;
+}
+
 
 .voltar img {
     width: 100%;
@@ -122,6 +155,7 @@ h2 {
     color: white;
 }
 
+
 form {
     display: flex;
     flex-direction: column;
@@ -140,6 +174,18 @@ form {
     padding-bottom: 50px;
 }
 
+.menu {
+    background-color: #01F892;
+    height: 80%;
+    justify-content: start !important;
+    padding-top: 10%;
+}
+
+.menu>form>a {
+    margin-top: 50px !important;
+    padding: 20px;
+}
+
 label {
     display: flex;
     justify-content: flex-start;
@@ -149,17 +195,22 @@ label {
     color: white;
     font-size: 20px;
 }
-.codigo{
+.white>#logo{
+    filter: invert(1);
+}
+.codigo {
     display: flex;
 }
-.codigo>button{
+
+.codigo>button {
     font-size: 20px;
 }
 
-.aviso{
+.aviso {
     margin: 0;
     color: white;
 }
+
 input {
     margin: 0 0 15px 0;
     width: 100%;
@@ -168,6 +219,12 @@ input {
     padding: 10px 5px;
     font-size: 20px;
 }
+
+#logo {
+    width: 30% !important;
+
+}
+
 
 button,
 .button {
@@ -182,7 +239,7 @@ button,
     margin: 20px auto;
     width: 70%;
     filter: drop-shadow(0px 5px rgb(174, 174, 174));
-    font-size: 35px;
+    font-size: 170%;
     font-weight: bold;
 }
 
@@ -200,7 +257,7 @@ div.entrar {
 }
 
 a {
-    color:#2f9e41;
+    color: #2f9e41;
     text-decoration: none;
     margin-top: 10px;
     display: inline-block;

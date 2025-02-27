@@ -14,34 +14,25 @@
 </head>
 
 <body>
-    <div class="topo">
-        <div class="voltar">
-            <a href="index.php">
-                <img src="midia/voltar.png" alt="">
-                <p>Sair</p>
-            </a>
-        </div>
+    <div class="topo white">
+        <img id="logo" src="midia/QrMeal1.png" alt="">
+        <a id="sair" href="login.php">
+            <img src="midia/Sair.png" alt="">
+            <p>Sair</p>
+        </a>
     </div>
-    <div class="topo">
-        <img src="midia/QrMeal1.png" alt="">
-    </div>
-    <h2>Login</h2>
-    <div class="info">
+    <h3 class="white">Estudante</h3>
+    <div class="info menu">
         <?php if (isset($erro)): ?>
             <p class="erro"><?php echo $erro; ?></p>
         <?php endif; ?>
         <!-- <div class="input"> -->
         <form method="POST">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
-
-            <label for="senha">Senha:</label>
-            <input type="password" id="senha" name="senha" required>
-
-            <a href="codigoSenha.php">Esqueceu a senha?</a>
-            <button class="btwhite" type="submit">Entrar</button>
+            <a class="btwhite button" href="">Meu perfil</a>
+            <a class="btwhite button" href="">Comprar ticket</a>
+            <a class="btwhite button" href="">Tickets</a>
+            <a class="btwhite button" href="">Sobre</a>
         </form>
-        <p class="aviso">Não tem uma conta? <a href="cadastro.php">Cadastre-se</a></p>
         <!-- </div> -->
     </div>
 </body>

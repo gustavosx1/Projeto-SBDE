@@ -1,7 +1,7 @@
 <?php
 session_start();
 if (isset($_SESSION['usuario_id'])) {
-    header("Location: dashboard.php");
+    header("Location: menu.php");
     exit();
 }
 
@@ -18,7 +18,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($usuario && password_verify($senha, $usuario['senha'])) {
         $_SESSION['usuario_id'] = $usuario['id'];
         $_SESSION['usuario_nome'] = $usuario['nome'];
-        header("Location: dashboard.php");
+        header("Location: menu.php");
         exit();
     } else {
         $erro = "Email ou senha incorretos.";
