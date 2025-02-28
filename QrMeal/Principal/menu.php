@@ -22,7 +22,7 @@
         </a>
     </div>
     <h3 class="white">Estudante</h3>
-    <div class="info menu green">
+    <div class="info menu">
         <?php if (isset($erro)): ?>
             <p class="erro"><?php echo $erro; ?></p>
         <?php endif; ?>

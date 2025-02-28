@@ -74,6 +74,15 @@ h3 {
     font-weight: 800 !important;
     font-family: "Onest" !important;
 }
+/* h4{
+    font-size: 8vw;
+    text-align: center;
+    margin: -2px 0px;
+    padding: 20px !important;
+    color: white;
+    font-weight: 800 !important;
+    font-family: "Onest" !important;  
+} */
 
 .aviso {
     margin: 0;
@@ -103,7 +112,7 @@ h3 {
     padding-top: 10% !important;
 }
 
-table {
+.menu>table {
     margin-top: 5%;
     width: 80%;
     font-family: "Noto Sans";
@@ -113,11 +122,26 @@ table {
     /* border-collapse: collapse; */
 }
 
-td {
+.menu td {
     /* border: 1px solid; */
     /* border: 2px solid; */
 }
 
+.ticket{
+    background-color: #fafafa !important;
+    border-collapse: collapse;
+    width: 70% !important;
+}
+
+.ticket>p{
+    font-size: 20px !important;
+}
+.ticket>h2{
+    color: black !important;
+}
+.ticket>button{
+    font-size: 40px;
+}
 .right {
     text-align: right;
 }
@@ -280,7 +304,7 @@ input {
 
 #perfil {
     /* margin: -20% 0; */
-    display:flex;
+    display: flex;
     justify-content: center;
     align-items: center;
     height: 0% !important;
@@ -290,6 +314,29 @@ input {
     width: 70%;
     border-radius: 50%;
     object-fit: cover;
+}
+
+.sobre {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+    height: 0% !important;
+}
+
+.sobre>img {
+    background-color: black;
+    border-radius: 20%;
+    width: 60%;
+    filter: invert(1) drop-shadow(0 5px 2px rgb(169, 168, 168));
+}
+
+#descricao {
+    font-family: "Onest";
+    font-weight: 400;
+    font-size: 22px;
+    width: 90%;
+    text-align: justify;
 }
 
 .info {
@@ -323,7 +370,7 @@ input {
     padding: 20px;
 }
 
-.padbot{
+.padbot {
     padding-bottom: 30%;
 }
 
