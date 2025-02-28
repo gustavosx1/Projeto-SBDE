@@ -16,7 +16,7 @@
 <body>
     <div class="topo white separa">
         <img id="logo" src="../midia/QrMeal1.png" alt="">
-        <a id="sair" href="../Inicio/login.php">
+        <a id="sair" href="../Inicio/index.php">
             <img src="../midia/Sair.png" alt="">
             <p>Sair</p>
         </a>
@@ -30,7 +30,7 @@
         <form method="POST">
             <a class="btwhite button" href="perfil.php">Meu perfil</a>
             <a class="btwhite button" href="">Comprar ticket</a>
-            <a class="btwhite button" href="">Tickets</a>
+            <a class="btwhite button" href="ticket.php">Tickets</a>
             <a class="btwhite button" href="sobre.php">Sobre</a>
         </form>
         <!-- </div> -->

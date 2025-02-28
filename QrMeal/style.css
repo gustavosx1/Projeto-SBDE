@@ -74,6 +74,7 @@ h3 {
     font-weight: 800 !important;
     font-family: "Onest" !important;
 }
+
 /* h4{
     font-size: 8vw;
     text-align: center;
@@ -127,23 +128,74 @@ h3 {
     /* border: 2px solid; */
 }
 
-.ticket{
+.ticket {
     background-color: #fafafa !important;
     border-collapse: collapse;
     width: 70% !important;
+    cursor:default !important;
 }
 
-.ticket>p{
+.ticket>p {
     font-size: 20px !important;
 }
-.ticket>h2{
+
+.ticket>h2 {
     color: black !important;
 }
-.ticket>button{
-    font-size: 40px;
+
+.ticket button {
+    font-size: 20px !important;
 }
+
+.ticket img {
+    width: 20%;
+}
+
 .right {
     text-align: right;
+}
+
+.qrcode {
+    background-color: #dddddd !important;
+    display: flex !important;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+.qrcode:hover{
+    transition: 0.5 ease;
+    filter: drop-shadow(0 0 5px green);
+    
+}
+.ticket span{
+    font-family: "Fjalla One";
+    color: #2f9e41 !important;
+}
+.ticket.desativado span{
+    font-family: "Fjalla One";
+    color: #464646 !important;
+}
+#resultado{
+    font-size: "Fjalla One";
+}
+
+video{
+    width: 90%;
+}
+
+.qrcode p {
+    width: 80%;
+    font-weight: 900;
+    color: #2f9e41 !important;
+}
+
+.ticket.desativado {
+    background-color: #979797 !important;
+}
+
+.ticket.desativado button{
+    display: none !important;
+    background-color: #b2b2b2 !important;
 }
 
 /* ==========================
