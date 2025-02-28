@@ -1,30 +1,21 @@
-@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Onest:wght@100..900&display=swap');
+/* ==========================
+   1. Importação de fontes
+   ========================== */
+@import url('https://fonts.googleapis.com/css2?family=Fjalla+One&family=Noto+Sans:ital,wght@0,100..900;1,100..900&family=Nunito:ital,wght@0,200..1000;1,200..1000&family=Onest:wght@100..900&display=swap');
 
+/* ==========================
+      2. Variáveis globais
+      ========================== */
 :root {
     --cor-fundo-normal: rgb(30, 50, 49);
 }
 
+/* ==========================
+      3. Estilização global
+      ========================== */
 * {
     font-family: "Nunito";
     color: black;
-}
-
-h1,
-h2,
-h4,
-h5,
-h6 {
-    font-family: "Fjalla One" !important;
-}
-
-h3 {
-    font-size: 10vw;
-    text-align: center;
-    margin: -1px;
-    padding: 20px !important;
-    color: black;
-    font-weight:800 !important;
-    font-family: "Onest" !important;
 }
 
 body {
@@ -37,108 +28,27 @@ body {
     width: 100vw;
 }
 
-.container {
-    background-color: #ffffff;
-    padding: 20px;
-    border-radius: 8px;
-    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
-    width: 100%;
-    max-width: 400px;
-    text-align: center;
+/* Links */
+a {
+    color: #2f9e41;
+    text-decoration: none;
+    margin-top: 10px;
+    display: inline-block;
 }
 
-.acessibilidade>a {
-    width: 100%;
-    margin-top: 20%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
+a:hover {
+    text-decoration: underline;
 }
 
-.acessibilidade>a>img {
-    /* margin: 20px auto; */
-    width: 20%;
-    filter: invert(1);
-}
-
-.acessibilidade>a>p {
-    margin-top: -2px;
-    font-size: 25px;
-    text-align: center;
-    font-weight: bold;
-    color: white;
-}
-
-.padtop{
-    padding-top: 10% !important;
-}
-
-.topo {
-    display: flex;
-    /* flex-direction: column; */
-    align-items: center;
-    justify-content: center;
-    width: 100vw;
-    /* background-color: #0056b3; */
-}
-
-.topo>img {
-    /* filter: drop-shadow(0px 0px 5px white); */
-    width: 40% !important;
-}
-
-.voltar {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    width: 100%;
-    margin-left: 5px;
-}
-
-.voltar>a {
-    width: 12%;
-}
-#sair {
-    display: flex;
-    flex-direction: column;
-    align-items: flex-end;
-    margin-right: 20px;
-    justify-content: center;
-    width: 100%;
-    margin-left: 5px;
-}
-
-.white{
-    background-color: white !important;
-}
-
-#sair>img {
-    width: 12%;
-}
-#sair>p {
-    margin-top: 0px;
-    font-size: 20px;
-    font-weight: bold;
-}
-
-
-.voltar img {
-    width: 100%;
-    filter: invert(1);
-}
-
-.voltar p {
-    font-size: 20px;
-    margin-top: -5px;
-    color: white;
-}
-
-.input {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
+/* ==========================
+      4. Tipografia
+      ========================== */
+h1,
+h2,
+h4,
+h5,
+h6 {
+    font-family: "Fjalla One" !important;
 }
 
 h1 {
@@ -155,55 +65,14 @@ h2 {
     color: white;
 }
 
-
-form {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    width: 80%;
-}
-
-.info {
-    width: 100%;
-    /* display: block; */
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding-bottom: 50px;
-}
-
-.menu {
-    background-color: #01F892;
-    height: 80%;
-    justify-content: start !important;
-    padding-top: 10%;
-}
-
-.menu>form>a {
-    margin-top: 50px !important;
-    padding: 20px;
-}
-
-label {
-    display: flex;
-    justify-content: flex-start;
-    margin: 0 0 5px 0;
-    font-weight: bold;
-    width: 100%;
-    color: white;
-    font-size: 20px;
-}
-.white>#logo{
-    filter: invert(1);
-}
-.codigo {
-    display: flex;
-}
-
-.codigo>button {
-    font-size: 20px;
+h3 {
+    font-size: 10vw;
+    text-align: center;
+    margin: -2px 0px;
+    padding: 20px !important;
+    color: black;
+    font-weight: 800 !important;
+    font-family: "Onest" !important;
 }
 
 .aviso {
@@ -211,21 +80,75 @@ label {
     color: white;
 }
 
-input {
-    margin: 0 0 15px 0;
-    width: 100%;
-    border-radius: 15px;
-    border: solid 3px black;
-    padding: 10px 5px;
+/* ==========================
+      5. Classes utilitárias
+      ========================== */
+.white {
+    background-color: #ffffff !important;
+}
+
+.white>#logo {
+    filter: invert(1);
+}
+
+.white p {
+    color: black !important;
+}
+
+.white .voltar img {
+    filter: invert(0) !important;
+}
+
+.padtop {
+    padding-top: 10% !important;
+}
+
+table {
+    margin-top: 5%;
+    width: 80%;
+    font-family: "Noto Sans";
+    font-weight: 600;
     font-size: 20px;
+    /* background-color: #0056b3; */
+    /* border-collapse: collapse; */
 }
 
-#logo {
-    width: 30% !important;
-
+td {
+    /* border: 1px solid; */
+    /* border: 2px solid; */
 }
 
+.right {
+    text-align: right;
+}
 
+/* ==========================
+      6. Layout e Containers
+      ========================== */
+.container {
+    background-color: #ffffff;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    width: 100%;
+    max-width: 400px;
+    text-align: center;
+}
+
+.topo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+}
+
+.topo>img {
+    width: 40% !important;
+}
+
+/* ==========================
+      7. Botões e Interações
+      ========================== */
 button,
 .button {
     text-align: center;
@@ -245,26 +168,171 @@ button,
 
 .btwhite {
     background-color: #fafafa;
-    color: black
+    color: black;
 }
 
-div.entrar {
-    display: block;
-    margin: auto;
-    /* background-color: aqua; */
-    /* padding: auto; */
+/* ==========================
+      8. Formulários
+      ========================== */
+form {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
     width: 80%;
 }
 
-a {
-    color: #2f9e41;
-    text-decoration: none;
-    margin-top: 10px;
-    display: inline-block;
+.input {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
 }
 
-a:hover {
-    text-decoration: underline;
+label {
+    display: flex;
+    justify-content: flex-start;
+    margin: 0 0 5px 0;
+    font-weight: bold;
+    width: 100%;
+    color: white;
+    font-size: 20px;
+}
+
+input {
+    margin: 0 0 15px 0;
+    width: 100%;
+    border-radius: 15px;
+    border: solid 3px black;
+    padding: 10px 5px;
+    font-size: 20px;
+}
+
+/* ==========================
+      9. Elementos diversos
+      ========================== */
+.acessibilidade>a {
+    width: 100%;
+    margin-top: 20%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+
+.acessibilidade>a>img {
+    width: 20%;
+    filter: invert(1);
+}
+
+.acessibilidade>a>p {
+    margin-top: -2px;
+    font-size: 25px;
+    text-align: center;
+    font-weight: bold;
+    color: white;
+}
+
+.voltar {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: center;
+    width: 100%;
+    margin-left: 5px;
+}
+
+.voltar>a {
+    width: 12%;
+}
+
+.voltar img {
+    width: 100%;
+    filter: invert(1);
+}
+
+.voltar p {
+    font-size: 20px;
+    margin-top: -5px;
+    color: white;
+}
+
+#sair {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-right: 20px;
+    justify-content: center;
+    margin-left: 5px;
+    width: 10% !important;
+}
+
+#sair>img {
+    padding-left: 6px !important;
+    width: 100%;
+}
+
+#sair>p {
+    margin: 0 !important;
+    padding: 0 !important;
+    font-size: 20px;
+    font-weight: bold;
+}
+
+#perfil {
+    /* margin: -20% 0; */
+    display:flex;
+    justify-content: center;
+    align-items: center;
+    height: 0% !important;
+}
+
+#perfil>img {
+    width: 70%;
+    border-radius: 50%;
+    object-fit: cover;
+}
+
+.info {
+    width: 100%;
+    /* display: block; */
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding-bottom: 50px;
+}
+
+
+.separa {
+    justify-content: space-between !important;
+}
+
+.green {
+
+    background-color: #2f9e41;
+}
+
+.menu {
+    height: 70%;
+    justify-content: start !important;
+    padding-top: 10%;
+}
+
+.menu>form>a {
+    margin-top: 50px !important;
+    padding: 20px;
+}
+
+.padbot{
+    padding-bottom: 30%;
+}
+
+.codigo {
+    display: flex;
+}
+
+.codigo>button {
+    font-size: 20px;
 }
 
 .erro {
@@ -273,4 +341,14 @@ a:hover {
 
 .sucesso {
     color: green;
+}
+
+#logo {
+    width: 30% !important;
+}
+
+div.entrar {
+    display: block;
+    margin: auto;
+    width: 80%;
 }

@@ -25,7 +25,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Restaurante Universitário</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <?php include 'config.php' ?>
 </head>
 
@@ -33,13 +33,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <div class="topo">
         <div class="voltar">
             <a href="index.php">
-                <img src="midia/voltar.png" alt="">
+                <img src="../midia/voltar.png" alt="">
                 <p>Voltar</p>
             </a>
         </div>
     </div>
     <div class="topo">
-        <img src="midia/QrMeal1.png" alt="">
+        <img src="../midia/QrMeal1.png" alt="">
     </div>
     <div class="info">
         <h2>Cadastro</h2>

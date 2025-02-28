@@ -5,13 +5,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Restaurante Universitário</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
     <?php include 'config.php' ?>
 </head>
 
 <body>
     <div class="topo padtop">
-        <img src="midia/QrMeal1.png" alt="">
+        <img src="../midia/QrMeal1.png" alt="">
     </div>
     <h1>QrMeal</h1>
     <div class="entrar">
@@ -20,7 +20,7 @@
     </div>
     <div class="acessibilidade">
         <a href="" onclick="altoContraste()">
-            <img src="midia/Constraste.png" alt="">
+            <img src="../midia/Constraste.png" alt="">
             <p>Alto Contraste</p>
         </a>
     </div>
