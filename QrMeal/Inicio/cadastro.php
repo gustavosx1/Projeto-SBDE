@@ -59,7 +59,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required>
 
-            <p class="aviso">Já tem uma conta? <a href="index.php">Faça login</a></p>
+            <p class="aviso">Já tem uma conta? <a href="login.php">Faça login</a></p>
             <button class="btwhite" type="submit">Cadastrar</button>
         </form>
     </div>

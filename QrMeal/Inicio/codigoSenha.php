@@ -35,7 +35,7 @@
             <label for="confirmacao">Código de recuperação:</label>
             <div class="codigo">
                 <input type="number" id="confirmacao" name="confirmacao" required>
-                <button class="btwhite" type="submit">Enviar código</button>
+                <button class="btwhite" type="submit">Receber código</button>
             </div>
 
             <button class="btwhite" type="submit">Continuar</button>

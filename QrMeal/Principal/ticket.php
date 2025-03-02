@@ -24,7 +24,7 @@
             <p>Compra: <strong>12/02/2025 - 11:45</strong></p>
             <h2>Código: <span>ABCD1234</span></h2>
             <p>Validade: 14/03/2025 - 11:45</p>
-            <button class="button btwhite qrcode" onclick="window.location='mostrarTicket.php'">
+            <button class="button btwhite qrcode" onclick="window.location='../Ticket/mostrarTicket.php'">
                 <img src="../midia/qrcode.png" alt="">
                 <p>
                     Ver QRCODE

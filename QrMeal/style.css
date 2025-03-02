@@ -132,7 +132,7 @@ h3 {
     background-color: #fafafa !important;
     border-collapse: collapse;
     width: 70% !important;
-    cursor:default !important;
+    cursor: default !important;
 }
 
 .ticket>p {
@@ -162,25 +162,34 @@ h3 {
     justify-content: center;
     align-items: center;
 }
-.qrcode:hover{
+
+.qrcode:hover {
     transition: 0.5 ease;
     filter: drop-shadow(0 0 5px green);
-    
+
 }
-.ticket span{
+
+.ticket span {
     font-family: "Fjalla One";
     color: #2f9e41 !important;
 }
-.ticket.desativado span{
+
+.ticket.desativado span {
     font-family: "Fjalla One";
     color: #464646 !important;
 }
-#resultado{
+
+#resultado {
     font-size: "Fjalla One";
 }
 
-video{
+video {
     width: 90%;
+}
+
+#calendario {
+    text-align: center;
+    width: 80%;
 }
 
 .qrcode p {
@@ -193,7 +202,7 @@ video{
     background-color: #979797 !important;
 }
 
-.ticket.desativado button{
+.ticket.desativado button {
     display: none !important;
     background-color: #b2b2b2 !important;
 }
@@ -450,4 +459,38 @@ div.entrar {
     display: block;
     margin: auto;
     width: 80%;
+}
+
+#pagamento {
+    width: 100%;
+    display: flex;
+    flex-wrap: wrap;
+    flex-direction: row;
+    justify-content: center;
+    align-items: center;
+}
+
+#pagamento>label,
+#pagamento>input {
+    color: black;
+    width: 50%;
+}
+
+.codigo {
+    width: 75%;
+    padding: 0px 0 !important;
+    margin: 0 !important;
+    font-size: 30px;
+}
+
+#codigoPix {
+    overflow: hidden;
+    margin: 0 !important;
+    padding: 5px 0 !important;
+    width: 100%;
+    text-align: left;
+    white-space: nowrap;
+    /* Impede a quebra de linha */
+    text-overflow: ellipsis;
+    /* Adiciona "..." se o texto ultrapassar o limite */
 }
