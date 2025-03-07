@@ -20,15 +20,29 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Restaurante Universitário</title>
-    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="../style.css">
+    <?php include 'config.php' ?>
 </head>
+
 <body>
-    <div class="container">
-        <h1>Cadastro</h1>
+    <div class="topo">
+        <div class="voltar">
+            <a href="index.php">
+                <img src="../midia/voltar.png" alt="">
+                <p>Voltar</p>
+            </a>
+        </div>
+    </div>
+    <div class="topo">
+        <img src="../midia/QrMeal1.png" alt="">
+    </div>
+    <div class="info">
+        <h2>Cadastro</h2>
         <?php if (isset($erro)): ?>
             <p class="erro"><?php echo $erro; ?></p>
         <?php endif; ?>
@@ -45,9 +59,10 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required>
 
-            <button type="submit">Cadastrar</button>
+            <p class="aviso">Já tem uma conta? <a href="login.php">Faça login</a></p>
+            <button class="btwhite" type="submit">Cadastrar</button>
         </form>
-        <p>Já tem uma conta? <a href="index.php">Faça login</a></p>
     </div>
 </body>
+
 </html>
