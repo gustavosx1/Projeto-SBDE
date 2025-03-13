@@ -8,10 +8,10 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require 'conexao.php';
 
-    $email = $_POST['email'];
+    $matricula = $_POST['matricula'];
     $senha = $_POST['senha'];
 
-    $stmt = $pdo->prepare("SELECT * FROM usuarios WHERE email = ?");
+    $stmt = $pdo->prepare("SELECT * FROM pessoa WHERE matricula = ?");
     $stmt->execute([$email]);
     $usuario = $stmt->fetch();
 
@@ -21,7 +21,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: ../Principal/menu.php");
         exit();
     } else {
-        $erro = "Email ou senha incorretos.";
+        $erro = "Matrícula ou senha incorretas.";
     }
 }
 ?>
@@ -56,8 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         <?php endif; ?>
         <!-- <div class="input"> -->
         <form method="POST">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <label for="matricula">Matrícula:</label>
+            <input type="matricula" id="matricula" name="matricula" required>
 
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required>
