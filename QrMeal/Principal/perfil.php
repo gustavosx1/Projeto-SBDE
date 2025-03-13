@@ -14,7 +14,7 @@
 </head>
 
 <body>
-    <div class="topo padbot">
+    <div class="topo padbot fullW">
         <div class="voltar">
             <a href="menu.php">
                 <img src="../midia/voltar.png" alt="">

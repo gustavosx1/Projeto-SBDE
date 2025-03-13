@@ -14,14 +14,14 @@
 </head>
 
 <body>
-    <div class="topo white separa">
+    <div class="topo white separa fullW">
         <img id="logo" src="../midia/QrMeal1.png" alt="">
         <a id="sair" href="../Inicio/index.php">
             <img src="../midia/Sair.png" alt="">
             <p>Sair</p>
         </a>
     </div>
-    <h3 class="white">Estudante</h3>
+    <h3 class="colorWhite">Estudante</h3>
     <div class="info menu">
         <?php if (isset($erro)): ?>
             <p class="erro"><?php echo $erro; ?></p>

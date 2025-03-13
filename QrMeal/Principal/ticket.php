@@ -10,7 +10,7 @@
 </head>
 
 <body class="">
-    <div class="topo">
+    <div class="topo fullW">
         <div class="voltar">
             <a href="menu.php">
                 <img src="../midia/voltar.png" alt="">

@@ -18,6 +18,7 @@
     color: black;
 }
 
+
 body {
     background-color: var(--cor-fundo-normal);
     color: #333;
@@ -85,9 +86,52 @@ h3 {
     font-family: "Onest" !important;  
 } */
 
+.mgtop{
+    margin-top: 10% !important;
+}
+
 .aviso {
     margin: 0;
     color: white;
+}
+
+body, html {
+    margin: 0;
+    padding: 0;
+    height: 100%;
+    font-family: Arial, sans-serif;
+}
+
+.content {
+    padding: 20px;
+}
+
+.arrow{
+    width: 50px;
+    filter: invert(1) drop-shadow(2px 2px 0px black);
+}
+
+.scroll-indicator {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-size: 40px;
+    color: #000;
+    animation: bounce 1s infinite;
+    transition: opacity 0.5s ease;
+}
+
+@keyframes bounce {
+    0% { transform: translateX(-50%) translateY(0); }
+    50% { transform: translateX(-50%) translateY(-10px); }
+    100% { transform: translateX(-50%) translateY(0); }
+}
+
+.scroll-indicator.hidden {
+    opacity: 0;
+    transition: 0.5s ease;
+    visibility: hidden;
 }
 
 /* ==========================
@@ -95,6 +139,9 @@ h3 {
       ========================== */
 .white {
     background-color: #ffffff !important;
+}
+.colorWhite{
+    color: white !important;
 }
 
 .white>#logo {
@@ -228,7 +275,7 @@ video {
 }
 
 .topo>img {
-    width: 40% !important;
+    width: 40%;
 }
 
 /* ==========================
@@ -348,7 +395,7 @@ input {
     margin-right: 20px;
     justify-content: center;
     margin-left: 5px;
-    width: 10% !important;
+    width: 10%;
 }
 
 #sair>img {
@@ -375,6 +422,8 @@ input {
     width: 70%;
     border-radius: 50%;
     object-fit: cover;
+    z-index: 2;
+    
 }
 
 .sobre {
@@ -452,7 +501,7 @@ input {
 }
 
 #logo {
-    width: 30% !important;
+    width: 30%;
 }
 
 div.entrar {
@@ -528,6 +577,13 @@ label[for="perfil"] {
     color: black;
 }
 
+select{
+    width: 100%;
+    padding: 10px;
+    margin: 5px 0;
+    border-radius: 5px;
+}
+
 select.perfil:focus {
     width: 50%;
 }
@@ -535,4 +591,67 @@ select.perfil:focus {
 select.perfil option {
     display: block;
     text-align: left;
+}
+
+@media screen and (min-width: 720px) {
+    body{
+        margin: 0 auto;
+        /* padding: 20vw !important; */
+        width: 30vw;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: center;
+    }
+    h1{
+        font-size: 5em !important;
+        margin: 5px !important;
+    }
+    h2{
+        font-size: 2em !important;
+        margin: 5px !important;
+    }
+    h3{
+        font-size: 2em !important;
+        margin: 5px !important;
+        background-color: transparent transparent;
+    }
+    .ticket{
+        width: 100% !important;
+    }
+    .topo{
+        width: 30vw !important;
+        margin-top: 0% !important;
+    }
+    .fullW{
+        margin: 0 !important;
+        width: 95vw !important;
+    }
+    #logo{
+        width: 10% !important;
+    }
+
+    #perfil>img {
+        width: 80% !important;
+    }
+    #sair{
+        width: 5% !important;
+    }
+    .voltar>a{
+        width: 5%;
+    }
+    .padtop{
+        padding-top: 0% !important;
+    }
+    .entrar{
+        margin: 10px !important;
+    }
+    .acessibilidade{
+        max-width: 200px;
+        width: 100%;
+    }
+    .acessibilidade p{
+        font-size: 1.3em !important;
+    }
 }

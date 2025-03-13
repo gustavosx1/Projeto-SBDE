@@ -12,7 +12,7 @@
 </head>
 
 <body>
-    <div class="topo">
+    <div class="topo fullW">
         <div class="voltar">
             <a href="index.php">
                 <img src="../midia/voltar.png" alt="">
@@ -47,12 +47,23 @@
                 <option value="1">Sim</option>
             </select>
 
+            <label for="tipoPessoa">Tipo de Pessoa:</label>
+            <select id="tipoPessoa" name="tipoPessoa" required>
+                <option value="Administrador">Administrador</option>
+                <option value="Funcionario">Funcionário</option>
+                <option value="Estudante">Estudante</option>
+            </select>
+
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required>
 
             <p class="aviso">Já tem uma conta? <a href="login.php">Faça login</a></p>
             <button class="btwhite" type="submit">Cadastrar</button>
         </form>
+    </div>
+    <div class="scroll-indicator">
+        <img class="arrow" src="../midia/setinha.png"></img>
+        <script src="../setinha.js"></script>
     </div>
 </body>
 

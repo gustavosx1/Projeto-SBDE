@@ -31,7 +31,7 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($dados
 </head>
 
 <body class="">
-    <div class="topo">
+    <div class="topo fullW">
         <div class="voltar">
             <a href="../Principal/ticket.php">
                 <img src="../midia/voltar.png" alt="">

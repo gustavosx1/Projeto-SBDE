@@ -7,11 +7,13 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $telefone = $_POST['telefone'];
     $tipoAuxilio = $_POST['tipoAuxilio'];
+    $tipoPessoa = $_POST['tipoPessoa'];  // Novo campo
     $senha = password_hash($_POST['senha'], PASSWORD_BCRYPT);
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO pessoa (idPessoa, nome, email, telefone, tipoAuxilio, senha) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$codigo, $nome, $email, $telefone, $tipoAuxilio, $senha]);
+        // Atualizando a consulta para incluir o campo tipoPessoa
+        $stmt = $pdo->prepare("INSERT INTO pessoa (idPessoa, nome, email, telefone, tipoAuxilio, tipoPessoa, senha) VALUES (?, ?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$codigo, $nome, $email, $telefone, $tipoAuxilio, $tipoPessoa, $senha]);
 
         header("Location: login.php");
         exit();
@@ -19,3 +21,4 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $erro = "Erro ao cadastrar: " . $e->getMessage();
     }
 }
+?>
