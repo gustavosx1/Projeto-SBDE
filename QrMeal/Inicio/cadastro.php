@@ -1,26 +1,4 @@
-<?php
-if ($_SERVER['REQUEST_METHOD'] == 'POST') {
-    require 'conexao.php';
-
-    $codigo = $_POST['codigo']; // Captura a matrícula do formulário
-    $nome = $_POST['nome'];
-    $email = $_POST['email'];
-    $telefone = $_POST['telefone'];
-    $tipoAuxilio = $_POST['tipoAuxilio'];
-    $senha = password_hash($_POST['senha'], PASSWORD_BCRYPT);
-
-    try {
-        // Insere o novo usuário com a matrícula
-        $stmt = $pdo->prepare("INSERT INTO pessoa (idPessoa, nome, email, telefone, tipoAuxilio, senha) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$codigo, $nome, $email, $telefone, $tipoAuxilio, $senha]);
-
-        header("Location: login.php");
-        exit();
-    } catch (PDOException $e) {
-        $erro = "Erro ao cadastrar: " . $e->getMessage();
-    }
-}
-?>
+<?php include '../Banco de Dados/createPessoa.php'; ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
