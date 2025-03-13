@@ -2,7 +2,7 @@
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require 'conexao.php';
 
-    $matricula = $_POST['matricula']; // Captura a matrícula do formulário
+    $codigo = $_POST['codigo']; // Captura a matrícula do formulário
     $nome = $_POST['nome'];
     $email = $_POST['email'];
     $telefone = $_POST['telefone'];
@@ -11,8 +11,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
     try {
         // Insere o novo usuário com a matrícula
-        $stmt = $pdo->prepare("INSERT INTO pessoa (matricula, nome, email, telefone, tipoAuxilio, senha) VALUES (?, ?, ?, ?, ?, ?)");
-        $stmt->execute([$matricula, $nome, $email, $telefone, $tipoAuxilio, $senha]);
+        $stmt = $pdo->prepare("INSERT INTO pessoa (idPessoa, nome, email, telefone, tipoAuxilio, senha) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$codigo, $nome, $email, $telefone, $tipoAuxilio, $senha]);
 
         header("Location: login.php");
         exit();
@@ -51,11 +51,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p class="erro"><?php echo $erro; ?></p>
         <?php endif; ?>
         <form method="POST">
-            <label for="matricula">Matrícula:</label>
-            <input type="text" id="matricula" name="matricula" required>
+            <label for="codigo">Matrícula/Código:</label>
+            <input type="text" id="codigo" name="codigo" required>
 
             <label for="nome">Nome:</label>
-            <input type="text" id="nome" name="nome" required>
+            <input type="name" id="nome" name="nome" required>
 
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>

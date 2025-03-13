@@ -1,6 +1,6 @@
 <?php
 $host = 'localhost';
-$dbname = 'restaurante_universitario';
+$dbname = 'mydb';
 $username = 'root'; // Altere para o usuário do seu banco de dados
 $password = ''; // Altere para a senha do seu banco de dados
 
