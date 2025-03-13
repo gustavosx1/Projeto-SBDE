@@ -5,12 +5,15 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $nome = $_POST['nome'];
     $email = $_POST['email'];
     $matricula = $_POST['matricula'];
+    $perfil = $_POST['perfil'];
     $senha = password_hash($_POST['senha'], PASSWORD_BCRYPT);
+    $status = 1;
 
     try {
-        $stmt = $pdo->prepare("INSERT INTO usuarios (nome, email, matricula, senha) VALUES (?, ?, ?, ?)");
-        $stmt->execute([$nome, $email, $matricula, $senha]);
-        header("Location: index.php");
+        $stmt = $pdo->prepare("INSERT INTO usuarios (nome, email, matricula, senha, perfil, status) VALUES (?, ?, ?, ?, ?, ?)");
+        $stmt->execute([$nome, $email, $matricula, $senha, $perfil, $status]);
+
+        header("Location: login.php");
         exit();
     } catch (PDOException $e) {
         $erro = "Erro ao cadastrar: " . $e->getMessage();
@@ -26,7 +29,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Cadastro - Restaurante Universitário</title>
     <link rel="stylesheet" href="../style.css">
-    <?php include 'config.php' ?>
+    <?php include 'config.php'; ?>
 </head>
 
 <body>
@@ -53,11 +56,18 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <label for="email">Email:</label>
             <input type="email" id="email" name="email" required>
 
-            <label for="matricula">Matrícula:</label>
-            <input type="text" id="matricula" name="matricula" required>
+            <label for="codigo">Matrícula/Código:</label>
+            <input type="text" id="codigo" name="codigo" required>
 
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required>
+
+            <label for="perfil">Perfil:</label>
+            <select class="perfil" id="perfil" name="perfil" required>
+                <option value="1">Administrador</option>
+                <option value="2">Funcionário</option>
+                <option value="3">Estudante</option>
+            </select>
 
             <p class="aviso">Já tem uma conta? <a href="login.php">Faça login</a></p>
             <button class="btwhite" type="submit">Cadastrar</button>

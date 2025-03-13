@@ -490,7 +490,49 @@ div.entrar {
     width: 100%;
     text-align: left;
     white-space: nowrap;
-    /* Impede a quebra de linha */
     text-overflow: ellipsis;
-    /* Adiciona "..." se o texto ultrapassar o limite */
+}
+
+label[for="perfil"] {
+    font-weight: bold;
+    color: #fff;
+    margin-bottom: 5px;
+    display: block;
+    text-align: center;
+}
+
+
+.perfil {
+    font-size: 18px;
+    padding: 5px;
+    border-radius: 8px;
+    border: none;
+    background-color: #007bff;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+    transition: background 0.3s ease;
+    width: 50%;
+    display: block;
+    margin: 0 auto;
+}
+
+.perfil:hover {
+    background-color: #0056b3;
+}
+
+.perfil option {
+    font-size: 16px;
+    text-align: center;
+    background: white;
+    color: black;
+}
+
+select.perfil:focus {
+    width: 50%;
+}
+
+select.perfil option {
+    display: block;
+    text-align: left;
 }

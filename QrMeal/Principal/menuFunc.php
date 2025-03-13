@@ -29,9 +29,10 @@
         <!-- <div class="input"> -->
         <form method="POST">
             <a class="btwhite button" href="perfilFunc.php">Meu perfil</a>
-            <a class="btwhite button" href="">Leitor de ticket</a>
-            
-            <a class="btwhite button" href="sobreFunc.php">Sobre</a>
+            <a class="btwhite button" href="../Ticket/lerTicket.php">Ler tickets</a>
+            <a class="btwhite button" href="../Pagamento/metodo.php">Comprar ticket</a>
+            <a class="btwhite button" href="ticket.php">Meus Tickets</a>
+            <a class="btwhite button padbot" href="sobreFunc.php">Sobre</a>
         </form>
         <!-- </div> -->
     </div>
