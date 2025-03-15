@@ -26,14 +26,12 @@
         <?php if (isset($erro)): ?>
             <p class="erro"><?php echo $erro; ?></p>
         <?php endif; ?>
-        <!-- <div class="input"> -->
         <form method="POST">
             <a class="btwhite button" href="perfil.php">Meu perfil</a>
             <a class="btwhite button" href="../Pagamento/metodo.php">Comprar ticket</a>
             <a class="btwhite button" href="ticket.php">Meus Tickets</a>
             <a class="btwhite button mgbot" href="sobre.php">Sobre</a>
         </form>
-        <!-- </div> -->
     </div>
 </body>
 

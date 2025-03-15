@@ -7,11 +7,9 @@ try {
     $conn = new PDO("mysql:host=$servername", $username, $password);
     $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
-    // Criar banco de dados
     $conn->exec("DROP DATABASE IF EXISTS mydb;CREATE DATABASE IF NOT EXISTS mydb DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;");
     $conn->exec("USE mydb;");
 
-    // Criar tabelas
     $tabelas = [
         "CREATE TABLE IF NOT EXISTS pessoa (
             idPessoa VARCHAR(20) NOT NULL PRIMARY KEY,

@@ -11,13 +11,12 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $email = $_POST['email'];
     $senha = $_POST['senha'];
 
-    // Alterando a consulta para usar a tabela 'pessoa'
     $stmt = $pdo->prepare("SELECT * FROM pessoa WHERE email = ?");
     $stmt->execute([$email]);
     $usuario = $stmt->fetch();
 
     if ($usuario && password_verify($senha, $usuario['senha'])) {
-        $_SESSION['usuario_id'] = $usuario['idPessoa'];  // Usando o idPessoa da tabela 'pessoa'
+        $_SESSION['usuario_id'] = $usuario['idPessoa'];
         $_SESSION['usuario_nome'] = $usuario['nome'];
         header("Location: ../Principal/menu.php");
         exit();

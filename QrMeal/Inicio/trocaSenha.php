@@ -4,26 +4,20 @@ session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require '../Banco de Dados/conexao.php';
 
-    // Recuperando o código e as senhas do formulário
     $codigoConfirmacao = $_POST['confirmacao'];
     $novaSenha = $_POST['senha'];
 
-    // Verificar se o código de confirmação corresponde ao código armazenado na sessão
     if (isset($_SESSION['codigo_recuperacao']) && $_SESSION['codigo_recuperacao'] == $codigoConfirmacao) {
-        // Verificar se as senhas coincidem
         if ($_POST['senha'] == $_POST['confirmacao']) {
             $senhaHash = password_hash($novaSenha, PASSWORD_BCRYPT);
             $email = $_SESSION['email_recuperacao'];
 
-            // Atualizar a senha no banco de dados
             $stmt = $pdo->prepare("UPDATE pessoa SET senha = ? WHERE email = ?");
             $stmt->execute([$senhaHash, $email]);
 
-            // Limpar a sessão
             unset($_SESSION['codigo_recuperacao']);
             unset($_SESSION['email_recuperacao']);
 
-            // Redirecionar para a página de login após a mudança de senha
             header("Location: login.php");
             exit();
         } else {

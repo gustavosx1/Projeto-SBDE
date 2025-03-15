@@ -7,7 +7,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $quantidadeDias = count(explode(",", $_POST["dias"]));
         $valorTotal = $quantidadeDias * $precoTicket;
 
-        // Redirecionamento com POST usando um formulário automático
         $destino = ($metodoPagamento == "pix") ? "pix.php" : "cartao.php";
 
         echo "<form id='redirectForm' action='{$destino}' method='POST'>
@@ -88,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 selectedDates = dates;
                 let total = selectedDates.length * precoTicket;
                 valorTotal.innerText = total.toFixed(2);
-                inputDias.value = dateStr; // Salva os dias no input hidden
+                inputDias.value = dateStr;
                 inputValorTotal.value = total.toFixed(2);
             }
         });

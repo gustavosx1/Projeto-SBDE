@@ -1,25 +1,19 @@
 <?php
 function gerarPixCopiaECola($chave, $valor, $descricao, $nome, $cidade) {
-    $payload = "000201"; // Início do Payload
+    $payload = "000201";
     
-    // Dados do Pix
     $payload .= "26" . str_pad(strlen("0014br.gov.bcb.pix01" . strlen($chave) . $chave), 2, '0', STR_PAD_LEFT) . "0014br.gov.bcb.pix01" . strlen($chave) . $chave;
     
-    // Adiciona o valor
     if ($valor > 0) {
         $payload .= "54" . str_pad(strlen(number_format($valor, 2, '.', '')), 2, '0', STR_PAD_LEFT) . number_format($valor, 2, '.', '');
     }
     
-    // Nome do recebedor
     $payload .= "59" . str_pad(strlen($nome), 2, '0', STR_PAD_LEFT) . $nome;
     
-    // Cidade do recebedor
     $payload .= "60" . str_pad(strlen($cidade), 2, '0', STR_PAD_LEFT) . $cidade;
     
-    // Categoria do Pix (default = 0000)
     $payload .= "62" . str_pad(strlen("0503BRL"), 2, '0', STR_PAD_LEFT) . "0503BRL";
     
-    // CRC16 para validação
     $crc16 = strtoupper(dechex(crc16($payload . "6304")));
     $payload .= "6304" . str_pad($crc16, 4, '0', STR_PAD_LEFT);
     
@@ -41,7 +35,6 @@ function crc16($str) {
     return $crc & 0xFFFF;
 }
 
-// Dados do Pix
 $chavePix = "samueldsa03032005@gmail.com";
 $valor = 1.00;
 $descricao = "Pagamento Teste";
