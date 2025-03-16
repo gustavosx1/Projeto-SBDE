@@ -3,7 +3,7 @@ window.addEventListener('scroll', function() {
     const scrollHeight = document.documentElement.scrollHeight;
     const scrollPosition = window.innerHeight + window.scrollY;
 
-    if (scrollPosition >= scrollHeight-10) {
+    if (scrollPosition >= scrollHeight-100) {
         indicator.classList.add('hidden');
     } else {
         indicator.classList.remove('hidden');

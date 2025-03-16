@@ -1,18 +1,18 @@
 <?php
-session_start();
-// if (isset($_SESSION['usuario_id'])) {
-//     header("Location: ../Principal/menu.php");
-//     exit();
-// }
+if (isset($_SESSION['usuario_id'])) {
+    header("Location: ../Principal/menu.php");
+    exit();
+}
 
+session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require '../Banco de Dados/conexao.php';
 
-    $email = $_POST['email'];
+    $codigo = $_POST['codigo'];
     $senha = $_POST['senha'];
 
-    $stmt = $pdo->prepare("SELECT * FROM pessoa WHERE email = ?");
-    $stmt->execute([$email]);
+    $stmt = $pdo->prepare("SELECT * FROM pessoa WHERE idPessoa = ?");
+    $stmt->execute([$codigo]);
     $usuario = $stmt->fetch();
 
     if ($usuario && password_verify($senha, $usuario['senha'])) {
@@ -21,10 +21,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         header("Location: ../Principal/menu.php");
         exit();
     } else {
-        $erro = "Email ou senha incorretos.";
+        $erro = "Código ou senha incorretos.";
     }
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -55,8 +56,8 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             <p class="erro"><?php echo $erro; ?></p>
         <?php endif; ?>
         <form method="POST">
-            <label for="email">Email:</label>
-            <input type="email" id="email" name="email" required>
+            <label for="codigo">Matricula/Código:</label>
+            <input type="text" id="codigo" name="codigo" required>
 
             <label for="senha">Senha:</label>
             <input type="password" id="senha" name="senha" required>

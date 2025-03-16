@@ -635,11 +635,11 @@ select.perfil option {
     #perfil>img {
         width: 80% !important;
     }
-    #sair{
+    #sair,.voltar{
         width: 5% !important;
     }
     .voltar>a{
-        width: 5%;
+        width: 5% !important;
     }
     .padtop{
         padding-top: 0% !important;

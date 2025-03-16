@@ -1,3 +1,9 @@
+<?php
+if (isset($_SESSION['usuario_id'])) {
+    session_destroy();
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
