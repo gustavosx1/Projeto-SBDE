@@ -1,12 +1,10 @@
 <?php
-// Dados do ticket (poderiam vir do banco de dados)
 $ticket_id = "123456";
 $estudante = "João Silva";
 $data = "2025-02-28";
 $hora = "12:00";
 $codigo = "ABC123";
 
-// Criando a string do QR Code
 $dados = json_encode([
     "ticket_id" => $ticket_id,
     "estudante" => $estudante,
@@ -15,7 +13,6 @@ $dados = json_encode([
     "codigo" => $codigo
 ]);
 
-// URL da API para gerar o QR Code
 $qr_url = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($dados) . "&size=200x200";
 ?>
 
@@ -31,7 +28,7 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($dados
 </head>
 
 <body class="">
-    <div class="topo">
+    <div class="topo fullW">
         <div class="voltar">
             <a href="../Principal/ticket.php">
                 <img src="../midia/voltar.png" alt="">
@@ -42,7 +39,6 @@ $qr_url = "https://api.qrserver.com/v1/create-qr-code/?data=" . urlencode($dados
     <div class="info">
         <h3 style="color: white;">Ticket</h3>
         <div class="button btwhite padtop">
-            <!-- <img src="../midia/qrcode.png" alt=""> -->
             <img src="<?php echo $qr_url; ?>" alt="QR Code do Ticket">
             <p class="padtop">Código:</p>
             <h2 id="codQRCODE" style="color: #2f9e41 !important;">23262632</h2>

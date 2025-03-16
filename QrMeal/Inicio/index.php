@@ -1,3 +1,9 @@
+<?php
+if (isset($_SESSION['usuario_id'])) {
+    session_destroy();
+    exit();
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -24,13 +30,17 @@
             <p>Alto Contraste</p>
         </a>
     </div>
+    <div class="scroll-indicator">
+        <img class="arrow" src="../midia/setinha.png"></img>
+        <script src="../setinha.js"></script>
+    </div>
     <script>
         function altoContraste() {
             let modoAtual = document.cookie.includes("modoContraste=alto") ? "alto" : "normal";
             let novoModo = modoAtual === "alto" ? "normal" : "alto";
 
-            document.cookie = "modoContraste=" + novoModo + "; path=/; max-age=31536000"; // Salva por 1 ano
-            location.reload(); // Recarrega a página para aplicar a mudança via PHP
+            document.cookie = "modoContraste=" + novoModo + "; path=/; max-age=31536000";
+            location.reload();
         }
     </script>
 </body>

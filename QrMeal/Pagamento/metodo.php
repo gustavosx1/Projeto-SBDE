@@ -7,7 +7,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $quantidadeDias = count(explode(",", $_POST["dias"]));
         $valorTotal = $quantidadeDias * $precoTicket;
 
-        // Redirecionamento com POST usando um formulário automático
         $destino = ($metodoPagamento == "pix") ? "pix.php" : "cartao.php";
 
         echo "<form id='redirectForm' action='{$destino}' method='POST'>
@@ -35,16 +34,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 </head>
 
 <body>
-    <div class="topo white">
+    <div class="topo white fullW">
         <div class="voltar">
-            <a href="../Principal/menu.php" style="width: 18%;">
+            <a href="../Principal/menu.php"">
                 <img src="../midia/voltar.png" alt="">
                 <p>Voltar</p>
             </a>
         </div>
         <img id="logo" src="../midia/QrMeal1.png" alt="">
     </div>
-    <h3 class="white">Comprar Tickets</h3>
+    <h3 class="colorWhite">Comprar Tickets</h3>
 
     <div class="info menu">
         <h2 for="calendario">Selecione os dias:</h2>
@@ -62,7 +61,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="radio" name="pagamento" id="cartao" value="cartao">
                 <label for="cartao">Cartão</label>
                 
-                <button type="submit" class="btwhite" style="font-size:20px">Confirmar</button>
+                <button type="submit" class="btwhite green" style="font-size:20px">Confirmar</button>
             </form>
         </div>
     </div>
@@ -88,7 +87,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 selectedDates = dates;
                 let total = selectedDates.length * precoTicket;
                 valorTotal.innerText = total.toFixed(2);
-                inputDias.value = dateStr; // Salva os dias no input hidden
+                inputDias.value = dateStr;
                 inputValorTotal.value = total.toFixed(2);
             }
         });

@@ -1,5 +1,11 @@
 <?php
+session_start();
 
+if (!isset($_SESSION['usuario_id'])) {
+    // session_destroy();
+    header("Location: ../Inicio/index.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -8,32 +14,31 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Restaurante Universitário</title>
+    <title>Menu - Restaurante Universitário</title>
     <link rel="stylesheet" href="../style.css">
     <?php include '../Inicio/config.php' ?>
 </head>
 
+
 <body>
-    <div class="topo white separa">
+    <div class="topo white separa fullW">
         <img id="logo" src="../midia/QrMeal1.png" alt="">
         <a id="sair" href="../Inicio/index.php">
             <img src="../midia/Sair.png" alt="">
             <p>Sair</p>
         </a>
     </div>
-    <h3 class="white">Estudante</h3>
+    <h3 class="colorWhite">Bem-vindo, <?php echo htmlspecialchars($_SESSION['usuario_nome']); ?>!</h3>
     <div class="info menu">
         <?php if (isset($erro)): ?>
             <p class="erro"><?php echo $erro; ?></p>
         <?php endif; ?>
-        <!-- <div class="input"> -->
         <form method="POST">
             <a class="btwhite button" href="perfil.php">Meu perfil</a>
             <a class="btwhite button" href="../Pagamento/metodo.php">Comprar ticket</a>
-            <a class="btwhite button" href="ticket.php">Tickets</a>
-            <a class="btwhite button" href="sobre.php">Sobre</a>
+            <a class="btwhite button" href="ticket.php">Meus Tickets</a>
+            <a class="btwhite button mgbot" href="sobre.php">Sobre</a>
         </form>
-        <!-- </div> -->
     </div>
 </body>
 

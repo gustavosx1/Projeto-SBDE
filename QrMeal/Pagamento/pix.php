@@ -1,46 +1,37 @@
 <?php
-// Dados do pagamento
-$chavePix = "samueldsa03032005@gmail.com"; // E-mail como chave Pix
-$cpfRecebedor = "62778208348"; // CPF do recebedor
+$chavePix = "samueldsa03032005@gmail.com";
+$cpfRecebedor = "62778208348";
 $nomeRecebedor = "Samuel Chaves de Sá";
-$telefoneRecebedor = "+5598984884321"; // Número de telefone
-$valor = isset($_POST['valorTotal']) ? $_POST['valorTotal'] : "3.00"; // Define o valor a ser pago (mínimo de R$ 3)
+$telefoneRecebedor = "+5598984884321";
+$valor = isset($_POST['valorTotal']) ? $_POST['valorTotal'] : "3.00";
 
-// Gerar o código Pix conforme o padrão simplificado
 $pixData = [
-    "chave" => $chavePix, // Chave Pix (pode ser CPF, CNPJ, ou e-mail)
-    "valor" => $valor, // Valor a ser pago
+    "chave" => $chavePix,
+    "valor" => $valor,
     "nome" => $nomeRecebedor,
     "telefone" => $telefoneRecebedor,
 ];
 
-// URL para a API de geração do QR Code do Banco do Brasil
-$apiUrl = "https://api.bb.com.br/pix/qr-code"; // Este é um exemplo simplificado (certifique-se de que a API está disponível e configurada no Banco do Brasil)
-
-// Configuração do cURL para gerar o QR Code
+$apiUrl = "https://api.bb.com.br/pix/qr-code";
 $ch = curl_init($apiUrl);
 curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
 curl_setopt($ch, CURLOPT_HTTPHEADER, [
     'Content-Type: application/json',
-    'Authorization: Bearer SEU_TOKEN_AQUI' // Substitua pelo seu token de acesso à API do Banco do Brasil
+    'Authorization: Bearer SEU_TOKEN_AQUI'
 ]);
 curl_setopt($ch, CURLOPT_POST, true);
 curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($pixData));
 
-// Executa a requisição
 $response = curl_exec($ch);
 
-// Verifica erros
 if ($response === false) {
     die('Erro na requisição cURL: ' . curl_error($ch));
 }
 
 curl_close($ch);
 
-// Decodifica a resposta
 $responseData = json_decode($response, true);
 
-// Verifica se o QR Code foi gerado corretamente
 if (isset($responseData['qrcode'])) {
     $qrCodeUrl = $responseData['qrcode'];
 } else {
