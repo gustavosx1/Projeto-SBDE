@@ -86,7 +86,7 @@ h3 {
     font-family: "Onest" !important;  
 } */
 
-.mgtop{
+.mgtop {
     margin-top: 10% !important;
 }
 
@@ -95,7 +95,8 @@ h3 {
     color: white;
 }
 
-body, html {
+body,
+html {
     margin: 0;
     padding: 0;
     height: 100%;
@@ -106,7 +107,7 @@ body, html {
     padding: 20px;
 }
 
-.arrow{
+.arrow {
     width: 50px;
     filter: invert(1) drop-shadow(2px 2px 0px black);
 }
@@ -123,9 +124,17 @@ body, html {
 }
 
 @keyframes bounce {
-    0% { transform: translateX(-50%) translateY(0); }
-    50% { transform: translateX(-50%) translateY(-10px); }
-    100% { transform: translateX(-50%) translateY(0); }
+    0% {
+        transform: translateX(-50%) translateY(0);
+    }
+
+    50% {
+        transform: translateX(-50%) translateY(-10px);
+    }
+
+    100% {
+        transform: translateX(-50%) translateY(0);
+    }
 }
 
 .scroll-indicator.hidden {
@@ -140,7 +149,8 @@ body, html {
 .white {
     background-color: #ffffff !important;
 }
-.colorWhite{
+
+.colorWhite {
     color: white !important;
 }
 
@@ -423,7 +433,7 @@ input {
     border-radius: 50%;
     object-fit: cover;
     z-index: 2;
-    
+
 }
 
 .sobre {
@@ -577,7 +587,7 @@ label[for="perfil"] {
     color: black;
 }
 
-select{
+select {
     width: 100%;
     padding: 10px;
     margin: 5px 0;
@@ -594,7 +604,7 @@ select.perfil option {
 }
 
 @media screen and (min-width: 720px) {
-    body{
+    body {
         margin: 0 auto;
         /* padding: 20vw !important; */
         width: 30vw;
@@ -604,54 +614,72 @@ select.perfil option {
         justify-content: flex-start;
         align-items: center;
     }
-    h1{
+
+    h1 {
         font-size: 5em !important;
         margin: 5px !important;
     }
-    h2{
+
+    h2 {
         font-size: 2em !important;
         margin: 5px !important;
     }
-    h3{
+
+    h3 {
         font-size: 2em !important;
         margin: 5px !important;
         background-color: transparent transparent;
     }
-    .ticket{
+
+    .ticket {
         width: 100% !important;
     }
-    .topo{
+
+    .topo {
         width: 30vw !important;
         margin-top: 0% !important;
     }
-    .fullW{
+
+    .fullW {
         margin: 0 !important;
-        width: 95vw !important;
+        width: 99vw !important;
     }
-    #logo{
+
+    #logo {
         width: 10% !important;
     }
 
     #perfil>img {
         width: 80% !important;
     }
-    #sair,.voltar{
+
+    .fullW #sair {
         width: 5% !important;
     }
-    .voltar>a{
+
+    .fullW .voltar>a {
         width: 5% !important;
     }
-    .padtop{
+
+    .padtop {
         padding-top: 0% !important;
     }
-    .entrar{
+
+    .entrar {
         margin: 10px !important;
     }
-    .acessibilidade{
+
+    .acessibilidade {
         max-width: 200px;
         width: 100%;
     }
-    .acessibilidade p{
+
+    .acessibilidade p {
         font-size: 1.3em !important;
     }
+}
+.flatpickr-calendar{
+    left: 50vw !important;
+    /* right: auto !important; */
+    transform: translate(-50%, 0%);
 }
