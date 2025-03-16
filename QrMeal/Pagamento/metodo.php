@@ -36,7 +36,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="topo white fullW">
         <div class="voltar">
-            <a href="../Principal/menu.php"">
+            <a href="../Principal/menu.php">
                 <img src="../midia/voltar.png" alt="">
                 <p>Voltar</p>
             </a>
@@ -46,11 +46,11 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <h3 class="colorWhite">Comprar Tickets</h3>
 
     <div class="info menu">
-        <h2 for="calendario">Selecione os dias:</h2>
+        <h2>Selecione os dias:</h2>
         <input type="text" id="calendario" name="calendario" placeholder="Escolha os dias">
 
         <div class="button btwhite">
-            <p>Valor total: R$ <span id="valorTotal">0.00</span></p>
+            <p>Valor total: R$ <span id="valorTotal" data-preco="<?php echo $precoTicket; ?>">0.00</span></p>
             <form method="POST" id="pagamento">
                 <input type="hidden" name="dias" id="diasSelecionados">
                 <input type="hidden" name="valor" id="valorTotalInput">
@@ -67,36 +67,40 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+    <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
     <script>
-        let precoTicket = <?php echo $precoTicket; ?>;
-        let valorTotal = document.getElementById("valorTotal");
-        let inputDias = document.getElementById("diasSelecionados");
-        let inputValorTotal = document.getElementById("valorTotalInput");
-        let selectedDates = [];
+        document.addEventListener("DOMContentLoaded", function () {
+            let precoTicket = parseFloat(document.getElementById("valorTotal").dataset.preco);
+            let valorTotal = document.getElementById("valorTotal");
+            let inputDias = document.getElementById("diasSelecionados");
+            let inputValorTotal = document.getElementById("valorTotalInput");
+            let selectedDates = [];
 
-        flatpickr("#calendario", {
-            mode: "multiple",
-            dateFormat: "d/m/Y",
-            minDate: "today",
-            disable: [
-                function(date) {
-                    return date.getDay() === 0;
+            flatpickr("#calendario", {
+                locale: "pt", // Define o idioma como português do Brasil
+                mode: "multiple",
+                dateFormat: "d/m/Y",
+                minDate: "today",
+                disable: [
+                    function (date) {
+                        return date.getDay() === 0; // Desabilita domingos
+                    }
+                ],
+                onChange: function (dates, dateStr) {
+                    selectedDates = dates;
+                    let total = selectedDates.length * precoTicket;
+                    valorTotal.innerText = total.toFixed(2);
+                    inputDias.value = dateStr;
+                    inputValorTotal.value = total.toFixed(2);
                 }
-            ],
-            onChange: function(dates, dateStr) {
-                selectedDates = dates;
-                let total = selectedDates.length * precoTicket;
-                valorTotal.innerText = total.toFixed(2);
-                inputDias.value = dateStr;
-                inputValorTotal.value = total.toFixed(2);
-            }
-        });
+            });
 
-        document.getElementById("pagamento").addEventListener("submit", function(event) {
-            if (selectedDates.length === 0) {
-                event.preventDefault();
-                alert("Por favor, selecione pelo menos um dia antes de confirmar o pagamento.");
-            }
+            document.getElementById("pagamento").addEventListener("submit", function (event) {
+                if (selectedDates.length === 0) {
+                    event.preventDefault();
+                    alert("Por favor, selecione pelo menos um dia antes de confirmar o pagamento.");
+                }
+            });
         });
     </script>
 

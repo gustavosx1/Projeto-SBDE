@@ -678,7 +678,8 @@ select.perfil option {
         font-size: 1.3em !important;
     }
 }
-.flatpickr-calendar{
+
+.flatpickr-calendar {
     left: 50vw !important;
     /* right: auto !important; */
     transform: translate(-50%, 0%);

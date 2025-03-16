@@ -1,41 +1,31 @@
 <?php
-$chavePix = "samueldsa03032005@gmail.com";
-$cpfRecebedor = "62778208348";
-$nomeRecebedor = "Samuel Chaves de Sá";
-$telefoneRecebedor = "+5598984884321";
-$valor = isset($_POST['valorTotal']) ? $_POST['valorTotal'] : "3.00";
+require 'vendor/autoload.php'; // Carrega o Composer
 
-$pixData = [
-    "chave" => $chavePix,
-    "valor" => $valor,
-    "nome" => $nomeRecebedor,
-    "telefone" => $telefoneRecebedor,
-];
+use MercadoPago\SDK;
+use MercadoPago\Payment;
 
-$apiUrl = "https://api.bb.com.br/pix/qr-code";
-$ch = curl_init($apiUrl);
-curl_setopt($ch, CURLOPT_RETURNTRANSFER, true);
-curl_setopt($ch, CURLOPT_HTTPHEADER, [
-    'Content-Type: application/json',
-    'Authorization: Bearer SEU_TOKEN_AQUI'
-]);
-curl_setopt($ch, CURLOPT_POST, true);
-curl_setopt($ch, CURLOPT_POSTFIELDS, json_encode($pixData));
+// Configurar Mercado Pago
+SDK::setAccessToken("SEU_ACCESS_TOKEN_AQUI"); // Insira sua chave de acesso aqui
 
-$response = curl_exec($ch);
+// Recebe o valor do formulário ou define um valor padrão
+$valor = isset($_POST['valorTotal']) ? floatval($_POST['valorTotal']) : 3.00;
 
-if ($response === false) {
-    die('Erro na requisição cURL: ' . curl_error($ch));
-}
+// Criar pagamento PIX
+$payment = new Payment();
+$payment->transaction_amount = $valor;
+$payment->description = "Pagamento Restaurante Universitário";
+$payment->payment_method_id = "pix";
+$payment->payer = array(
+    "email" => "cliente@email.com"
+);
+$payment->save(); // Salva a transação no Mercado Pago
 
-curl_close($ch);
-
-$responseData = json_decode($response, true);
-
-if (isset($responseData['qrcode'])) {
-    $qrCodeUrl = $responseData['qrcode'];
+// Obter QR Code e código Pix
+if (isset($payment->point_of_interaction->transaction_data->qr_code_base64)) {
+    $qrCodeBase64 = $payment->point_of_interaction->transaction_data->qr_code_base64;
+    $pixCopiaCola = $payment->point_of_interaction->transaction_data->ticket_url;
 } else {
-    die('Erro ao obter QR Code: ' . json_encode($responseData));
+    die("Erro ao gerar QR Code PIX");
 }
 ?>
 
@@ -44,29 +34,33 @@ if (isset($responseData['qrcode'])) {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Cadastro - Restaurante Universitário</title>
+    <title>Pagamento Pix - Restaurante Universitário</title>
     <link rel="stylesheet" href="../style.css">
 </head>
 <body>
     <div class="topo">
         <div class="voltar">
             <a href="../Principal/ticket.php">
-                <img src="../midia/voltar.png" alt="">
+                <img src="../midia/voltar.png" alt="Voltar">
                 <p>Voltar</p>
             </a>
         </div>
     </div>
     <div class="info">
-        <h3 style="color: white;">Escaneie ou copie o código do Qr Code</h3>
+        <h3 style="color: white;">Escaneie o QR Code ou copie o código Pix</h3>
+        
         <div class="button btwhite padtop">
             <!-- Exibe o QR Code gerado -->
-            <img src="<?= $qrCodeUrl ?>" alt="QR Code Pix">
+            <img src="data:image/png;base64,<?= $qrCodeBase64 ?>" alt="QR Code Pix">
         </div>
+
         <div class="codigo btwhite">
-            <p id="codigoPix"><?= htmlspecialchars($pixData['chave']) ?></p>
+            <p id="codigoPix"><?= htmlspecialchars($pixCopiaCola) ?></p>
         </div>
-        <h3 style="color: white;">Valor total: R$ <?= $valor ?></h3>
-        <button type="button" class="button btwhite" onclick="copiarCodigo()">Copiar código</button>
+
+        <h3 style="color: white;">Valor total: R$ <?= number_format($valor, 2, ',', '.') ?></h3>
+        
+        <button type="button" class="button btwhite" onclick="copiarCodigo()">Copiar código Pix</button>
     </div>
 
     <script>
