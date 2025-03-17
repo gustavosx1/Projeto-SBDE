@@ -1,4 +1,4 @@
-<?php include '../Banco de Dados/createPessoa.php'; ?>
+<?php include '../Banco de Dados/create.php'; ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">

@@ -7,7 +7,7 @@ use MercadoPago\Payment;
 // Configurar Mercado Pago
 SDK::setAccessToken("SEU_ACCESS_TOKEN_AQUI"); // Insira sua chave de acesso aqui
 
-// Recebe o valor do formulário ou define um valor padrão
+// Recebe o valor do formulário ou define um valor padrão   
 $valor = isset($_POST['valorTotal']) ? floatval($_POST['valorTotal']) : 3.00;
 
 // Criar pagamento PIX

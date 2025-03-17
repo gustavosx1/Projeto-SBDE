@@ -626,7 +626,8 @@ select.perfil option {
     }
 
     h3 {
-        font-size: 2em !important;
+        font-size: 3em !important;
+        width: 100vw;
         margin: 5px !important;
         background-color: transparent transparent;
     }

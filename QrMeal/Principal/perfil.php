@@ -1,14 +1,14 @@
 <?php
 session_start();
-require '../Banco de Dados/conexao.php';  // Certifique-se de que a conexão com o banco de dados esteja sendo feita corretamente
+require '../Banco de Dados/conexao.php';
 
-// Verifique se o usuário está logado
-if (!isset($_SESSION['usuario_id'])) {
-    header("Location: ../Inicio/login.php");
+$usuario_id = $_SESSION['usuario_id'] ?? null;
+
+// Verifica se o ID do usuário está na sessão
+if (!$usuario_id) {
+    header("Location: login.php"); // Redireciona para o login caso o usuário não esteja autenticado
     exit();
 }
-
-$usuario_id = $_SESSION['usuario_id'];
 
 try {
     // Buscar os dados do usuário no banco de dados
@@ -16,12 +16,17 @@ try {
     $stmt->execute([$usuario_id]);
     $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
-    // Caso o usuário não seja encontrado
+    // Se o usuário não for encontrado, exibe erro
     if (!$usuario) {
         echo "Usuário não encontrado!";
         exit();
     }
 
+    // Se a foto não estiver definida ou estiver vazia, redireciona para escolher imagem
+    if (empty($usuario['foto'])) {
+        header("Location: escolher_imagem.php");
+        exit();
+    }
 } catch (PDOException $e) {
     die("Erro ao buscar dados do usuário: " . $e->getMessage());
 }
@@ -29,15 +34,13 @@ try {
 
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Perfil - Restaurante Universitário</title>
     <link rel="stylesheet" href="../style.css">
-    <?php include '../Inicio/config.php' ?>
+    <?php include '../Inicio/config.php'; ?>
 </head>
-
 <body>
     <div class="topo padbot fullW">
         <div class="voltar">
@@ -48,10 +51,11 @@ try {
         </div>
     </div>
 
-    <!-- Exibir foto, nome e matrícula -->
     <div id="perfil">
-        <!-- Verificar se a foto do usuário existe, caso contrário, exibe uma foto padrão -->
-        <img src="<?php echo $usuario['foto'] ? '../midia/' . $usuario['foto'] : '../midia/perfil.jpeg'; ?>" alt="Foto de perfil">
+        <img src="<?php echo (!empty($usuario['foto']) && file_exists('../uploads/' . $usuario['foto'])) 
+                        ? '../uploads/' . $usuario['foto'] 
+                        : '../midia/perfil.jpeg'; ?>" 
+             alt="Foto de perfil">
     </div>
 
     <div class="info menu white" style="padding-top: 40%; height:60% !important">
@@ -68,5 +72,4 @@ try {
         </table>
     </div>
 </body>
-
 </html>

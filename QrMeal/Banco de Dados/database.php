@@ -18,6 +18,7 @@ try {
             email VARCHAR(150),
             telefone BIGINT,
             tipoAuxilio INT,
+            foto varchar(255),
             senha VARCHAR(255)
         ) ENGINE=InnoDB;",
         "CREATE TABLE IF NOT EXISTS ticket (
