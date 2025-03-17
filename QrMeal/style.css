@@ -684,3 +684,32 @@ select.perfil option {
     /* right: auto !important; */
     transform: translate(-50%, 0%);
 }
+
+/*Paginação style botões*/
+.paginacao {
+    text-align: center;
+    margin-top: 15px;
+}
+
+.paginacao .botao {
+    display: inline-block;
+    padding: 8px 12px;
+    margin: 2px;
+    color: white;
+    background-color: #000000;
+    text-decoration: none;
+    border-radius: 5px;
+    transition: 0.3s;
+}
+
+.paginacao .botao:hover {
+    background-color: #353637;
+}
+
+.paginacao .pagina-atual {
+    background-color: #28a745; /* página ativa */
+    font-weight: bold;
+    cursor: default;
+    pointer-events: none;
+}
+
