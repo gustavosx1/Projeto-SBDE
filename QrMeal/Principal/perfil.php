@@ -59,7 +59,7 @@ try {
     </div>
 
     <div class="info menu white" style="padding-top: 40%; height:60% !important">
-        <h3><?php echo htmlspecialchars($usuario['nome']); ?></h3>
+        <h3 style="width: 100% !important; font-size:1.5em !important;"><?php echo htmlspecialchars($usuario['nome']); ?></h3>
         <table>
             <tr>
                 <td>Nome</td>
