@@ -1,25 +1,73 @@
 <?php
+session_start();
+
 $precoTicket = 3.00;
+$validadeTicket = null;
+$dataTicket = null;
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     if (isset($_POST["pagamento"]) && !empty($_POST["dias"])) {
+        require '../Banco de Dados/conexao.php';
+
         $metodoPagamento = $_POST["pagamento"];
-        $quantidadeDias = count(explode(",", $_POST["dias"]));
+        $dias = explode(",", $_POST["dias"]);
+        $quantidadeDias = count($dias);
         $valorTotal = $quantidadeDias * $precoTicket;
 
-        $destino = ($metodoPagamento == "pix") ? "pix.php" : "cartao.php";
+        $dataTicket = DateTime::createFromFormat('d/m/Y', reset($dias))->format('Y-m-d');
+        
+        // Definir a validade como dataTicket + 1 dia
+        $validadeTicket = date("Y-m-d 23:59:59", strtotime($dataTicket . ' +1 day'));
 
-        echo "<form id='redirectForm' action='{$destino}' method='POST'>
-                <input type='hidden' name='valor' value='" . number_format($valorTotal, 2, ".", "") . "'>
-                <input type='hidden' name='dias' value='{$_POST["dias"]}'>
-              </form>
-              <script>document.getElementById('redirectForm').submit();</script>";
-        exit();
+        if (isset($_SESSION['usuario_id'])) {
+            $usuario_id = $_SESSION['usuario_id'];
+        } else {
+            echo "<script>alert('Por favor, faça login para continuar.');</script>";
+            header("Location: ../Inicio/login.php");
+            exit();
+        }
+
+        try {
+            $stmt = $pdo->prepare("INSERT INTO ticket (idTicket, dataTicket, dataValidade, valorTicket, utilizado, pessoa_idPessoa) 
+                                   VALUES (UUID(), ?, ?, ?, 0, ?)");
+            $stmt->execute([$dataTicket, $validadeTicket, $valorTotal, $usuario_id]);
+
+            $ticket_id = $pdo->lastInsertId();
+
+            $cartao_id = null;
+            if ($metodoPagamento == 'cartao') {
+                if (isset($_POST['cartao_id'])) {
+                    $cartao_id = $_POST['cartao_id'];
+                } else {
+                    echo "<script>alert('Selecione um cartão válido para o pagamento.');</script>";
+                    exit();
+                }
+            }
+
+            $stmtPagamento = $pdo->prepare("INSERT INTO pagamento (pessoa_idPessoa, ticket_idTicket, metodoPagamento, dataCompra, cartao_idCartao) 
+                                           VALUES (?, ?, ?, NOW(), ?)");
+            $stmtPagamento->execute([$usuario_id, $ticket_id, $metodoPagamento, $cartao_id]);
+
+            $stmtCarteira = $pdo->prepare("SELECT * FROM carteira WHERE pessoa_idPessoa = ? AND cartao_idCartao = ?");
+            $stmtCarteira->execute([$usuario_id, $cartao_id]);
+
+            if ($stmtCarteira->rowCount() == 0 && $metodoPagamento == 'cartao') {
+                $stmtCarteiraInsert = $pdo->prepare("INSERT INTO carteira (pessoa_idPessoa, cartao_idCartao) VALUES (?, ?)");
+                $stmtCarteiraInsert->execute([$usuario_id, $cartao_id]);
+            }
+
+            echo "<script>alert('Pagamento realizado com sucesso!');</script>";
+        } catch (PDOException $e) {
+            echo "<script>alert('Erro ao processar pagamento: " . $e->getMessage() . "');</script>";
+        }
     } else {
-        echo "<script>alert('Selecione pelo menos um dia antes de prosseguir.');</script>";
+        echo "<script>alert('Selecione pelo menos um dia e método de pagamento antes de prosseguir.');</script>";
     }
 }
 ?>
+
+
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -27,7 +75,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Pagamento - Restaurante Universitário</title>
+    <title>Comprar Tickets - Restaurante Universitário</title>
     <link rel="stylesheet" href="../style.css">
     <?php include '../Inicio/config.php'; ?>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
@@ -61,6 +109,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="radio" name="pagamento" id="cartao" value="cartao">
                 <label for="cartao">Cartão</label>
                 
+                <div id="cartaoSelecionado" style="display: none;">
+                    <label for="cartao_id">Selecione o Cartão:</label>
+                    <select name="cartao_id" id="cartao_id">
+                        <option value="1">Cartão 1234</option>
+                        <option value="2">Cartão 5678</option>
+                    </select>
+                </div>
+                
                 <button type="submit" class="btwhite green" style="font-size:20px">Confirmar</button>
             </form>
         </div>
@@ -77,13 +133,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             let selectedDates = [];
 
             flatpickr("#calendario", {
-                locale: "pt", // Define o idioma como português do Brasil
+                locale: "pt",
                 mode: "multiple",
                 dateFormat: "d/m/Y",
                 minDate: "today",
                 disable: [
                     function (date) {
-                        return date.getDay() === 0; // Desabilita domingos
+                        return date.getDay() === 0;
                     }
                 ],
                 onChange: function (dates, dateStr) {
@@ -93,6 +149,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     inputDias.value = dateStr;
                     inputValorTotal.value = total.toFixed(2);
                 }
+            });
+
+            document.getElementById("cartao").addEventListener("change", function() {
+                document.getElementById("cartaoSelecionado").style.display = 'block';
+            });
+
+            document.getElementById("pix").addEventListener("change", function() {
+                document.getElementById("cartaoSelecionado").style.display = 'none';
             });
 
             document.getElementById("pagamento").addEventListener("submit", function (event) {

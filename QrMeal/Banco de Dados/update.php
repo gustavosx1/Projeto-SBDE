@@ -145,7 +145,7 @@ $conn = null;
             <p>Pessoa não encontrada!</p>
         <?php endif; ?>
         <div class="actions">
-            <a href="createPessoa.php">Voltar para a lista</a>
+            <a href="readPessoa.php">Voltar para a lista</a>
         </div>
     </div>
 

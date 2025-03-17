@@ -9,50 +9,40 @@ if (!isset($_SESSION['usuario_id'])) {
 
 $usuario_id = $_SESSION['usuario_id'];
 
-// Definição da paginação
 $por_pagina = 5;
 $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_atual - 1) * $por_pagina;
 
-// Verifica se o usuário quer ver apenas tickets não utilizados
 $mostrarNaoUtilizados = isset($_GET['nao_utilizados']) ? true : false;
 
 try {
-    // Consulta para obter os tickets do usuário
     $sql = "
         SELECT t.idTicket, t.dataTicket, t.dataValidade, t.valorTicket, t.utilizado
-        FROM pagamento p
-        INNER JOIN ticket t ON p.ticket_idTicket = t.idTicket
-        WHERE p.pessoa_idPessoa = ?
-    ";
+        FROM ticket t
+        WHERE t.pessoa_idPessoa = ?";
 
     if ($mostrarNaoUtilizados) {
-        $sql .= " AND t.utilizado = 0"; // Filtra apenas tickets não utilizados
+        $sql .= " AND t.utilizado = 0";
     }
 
     $sql .= " ORDER BY t.dataTicket DESC LIMIT ? OFFSET ?";
 
     $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(1, $usuario_id, PDO::PARAM_INT);
+    $stmt->bindValue(1, $usuario_id, PDO::PARAM_STR);
     $stmt->bindValue(2, (int) $por_pagina, PDO::PARAM_INT);
     $stmt->bindValue(3, (int) $offset, PDO::PARAM_INT);
     $stmt->execute();
 
     $tickets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
-    // Contar total de tickets para paginação
     $stmt_total = $pdo->prepare("
-        SELECT COUNT(*) as total FROM pagamento p
-        INNER JOIN ticket t ON p.ticket_idTicket = t.idTicket
-        WHERE p.pessoa_idPessoa = ?
-    ");
-    
+        SELECT COUNT(*) as total FROM ticket t
+        WHERE t.pessoa_idPessoa = ?");
+
     if ($mostrarNaoUtilizados) {
         $stmt_total = $pdo->prepare("
-            SELECT COUNT(*) as total FROM pagamento p
-            INNER JOIN ticket t ON p.ticket_idTicket = t.idTicket
-            WHERE p.pessoa_idPessoa = ? AND t.utilizado = 0
-        ");
+            SELECT COUNT(*) as total FROM ticket t
+            WHERE t.pessoa_idPessoa = ? AND t.utilizado = 0");
     }
 
     $stmt_total->execute([$usuario_id]);
@@ -87,58 +77,53 @@ try {
 
     <div class="filtro">
         <a href="?nao_utilizados=1">
-            <button>Mostrar Somente Não Utilizados</button>
+            <button class="<?php echo ($mostrarNaoUtilizados) ? 'ativo' : ''; ?>">Mostrar Somente Não Utilizados</button>
         </a>
         <a href="?">
-            <button>Mostrar Todos</button>
+            <button class="<?php echo (!$mostrarNaoUtilizados) ? 'ativo' : ''; ?>">Mostrar Todos</button>
         </a>
     </div>
 
     <div class="info">
         <h3 style="color: white;">Meus Tickets</h3>
         <?php if (count($tickets) > 0): ?>
-            <?php foreach ($tickets as $ticket): 
-                // Define a validade do ticket (até as 19h do dia da compra)
-                $data_compra = new DateTime($ticket['dataTicket']);
-                $validade = clone $data_compra;
-                $validade->setTime(19, 0, 0);
+            <?php foreach ($tickets as $ticket):
+                $validade = new DateTime($ticket['dataValidade']);
 
-                // Compara com a data atual
                 $agora = new DateTime();
                 $ticket_expirado = $agora > $validade;
                 $classe_ticket = $ticket_expirado ? 'desativado' : '';
 
-                // Verifica se o ticket já foi utilizado
                 $ticket_utilizado = $ticket['utilizado'] == 1;
             ?>
                 <div class="button ticket <?php echo $classe_ticket; ?>">
-                    <p>Compra: <strong><?php echo date('d/m/Y - H:i', strtotime($ticket['dataTicket'])); ?></strong></p>
-                    <h2>Código: <span><?php echo htmlspecialchars($ticket['idTicket']); ?></span></h2>
-                    <p>Validade: <?php echo date('d/m/Y - H:i', strtotime($ticket['dataValidade'])); ?></p>
-                    
+                    <p><strong>Compra:</strong> <?php echo date('d/m/Y - H:i', strtotime($ticket['dataTicket'])); ?></p>
+                    <h2><strong>Código:</strong> <?php echo htmlspecialchars($ticket['idTicket']); ?></h2>
+                    <p><strong>Validade:</strong> <?php echo date('d/m/Y - H:i', strtotime($ticket['dataValidade'])); ?></p>
+
                     <?php if ($ticket_utilizado): ?>
                         <p style="color: red; font-weight: bold;">Ticket já utilizado</p>
                     <?php elseif (!$ticket_expirado): ?>
                         <button class="button btwhite qrcode" onclick="window.location='../Ticket/mostrarTicket.php?id=<?php echo $ticket['idTicket']; ?>'">
-                            <img src="../midia/qrcode.png" alt="">
+                            <img src="../midia/qrcode.png" alt="QR Code">
                             <p>Ver QRCODE</p>
                         </button>
+
                     <?php else: ?>
                         <p style="color: red; font-weight: bold;">Ticket expirado</p>
                     <?php endif; ?>
                 </div>
             <?php endforeach; ?>
 
-            <!-- Paginação -->
             <div class="paginacao">
                 <?php if ($pagina_atual > 1): ?>
                     <a href="?pagina=<?php echo $pagina_atual - 1; ?>" class="botao">← Anterior</a>
                 <?php endif; ?>
 
                 <?php for ($i = 1; $i <= $total_paginas; $i++): ?>
-                    <a href="?pagina=<?php echo $i; ?>" 
-                    class="botao <?php echo ($i == $pagina_atual) ? 'pagina-atual' : ''; ?>">
-                    <?php echo $i; ?>
+                    <a href="?pagina=<?php echo $i; ?>"
+                        class="botao <?php echo ($i == $pagina_atual) ? 'pagina-atual' : ''; ?>">
+                        <?php echo $i; ?>
                     </a>
                 <?php endfor; ?>
 

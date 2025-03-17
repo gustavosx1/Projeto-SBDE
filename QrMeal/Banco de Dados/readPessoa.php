@@ -46,7 +46,7 @@
     <h2>Lista de Pessoas</h2>
 
     <!-- Botão para Criar Nova Pessoa -->
-    <a href="create.php" class="actions create">Criar Nova Pessoa</a>
+    <a href="createPessoa.php" class="actions create">Criar Nova Pessoa</a>
 
     <table>
         <tr>
