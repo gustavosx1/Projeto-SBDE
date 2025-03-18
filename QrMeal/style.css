@@ -18,6 +18,13 @@
     color: black;
 }
 
+.filtro{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    
+}
 
 body {
     background-color: var(--cor-fundo-normal);
@@ -603,16 +610,19 @@ select.perfil option {
     text-align: left;
 }
 
-@media screen and (min-width: 720px) {
+@media screen and (min-width: 500px) {
     body {
         margin: 0 auto;
         /* padding: 20vw !important; */
-        width: 30vw;
+        width: 50vw;
         height: 100%;
         display: flex;
         flex-direction: column;
         justify-content: flex-start;
         align-items: center;
+    }
+    .info{
+        width: 100%;
     }
 
     h1 {

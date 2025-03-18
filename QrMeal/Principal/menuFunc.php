@@ -1,5 +1,11 @@
 <?php
+session_start();
 
+if (!isset($_SESSION['usuario_id'])) {
+    // session_destroy();
+    header("Location: ../Inicio/index.php");
+    exit();
+}
 ?>
 
 <!DOCTYPE html>
@@ -14,14 +20,15 @@
 </head>
 
 <body>
-    <div class="topo white separa">
+    <div class="topo white separa fullW">
         <img id="logo" src="../midia/QrMeal1.png" alt="">
         <a id="sair" href="../Inicio/index.php">
             <img src="../midia/Sair.png" alt="">
             <p>Sair</p>
         </a>
     </div>
-    <h3 class="white">Funcionário</h3>
+    <h3 class="colorWhite">Funcionário</h3>
+    <h2 class="colorWhite">Bem-vindo<br><?php echo htmlspecialchars($_SESSION['usuario_nome']); ?>!</h2>
     <div class="info menu">
         <?php if (isset($erro)): ?>
             <p class="erro"><?php echo $erro; ?></p>

@@ -1,24 +1,26 @@
 <?php
 // Conexão com o banco de dados
 require '../Banco de Dados/conexao.php';
-
+session_start();
 if (!isset($_GET['id'])) {
-    die("Ticket não encontrado.");
+    die("Ticket não encontrado no GET");
 }
 
 $ticket_id = $_GET['id'];
-
 try {
     // Buscar informações do ticket
-    $stmt = $pdo->prepare("SELECT t.idTicket, t.dataTicket, t.dataValidade, t.valorTicket, t.utilizado, p.nome 
-                           FROM ticket t 
-                           JOIN pessoa p ON t.pessoa_idPessoa = p.idPessoa 
-                           WHERE t.idTicket = ?");
+    $stmt = $pdo->prepare("
+    SELECT t.idTicket, t.dataTicket, t.dataValidade, t.valorTicket, t.utilizado, p.nome
+    FROM ticket t
+    JOIN pessoa p ON p.idPessoa = t.idPessoa
+    WHERE t.idTicket = ?");
     $stmt->execute([$ticket_id]);
     $ticket = $stmt->fetch(PDO::FETCH_ASSOC);
 
     if (!$ticket) {
-        die("Ticket não encontrado.");
+        echo $ticket_id . "<br>";
+        echo $ticket . "<br>";
+        die("Ticket não encontrado no banco");
     }
 
     // Dados para o QR Code
@@ -61,9 +63,10 @@ try {
     <div class="info">
         <h3 style="color: white;">Ticket</h3>
         <div class="button btwhite padtop">
-            <img src="<?php echo $qr_url; ?>" alt="QR Code do Ticket">
+            <img style="padding-top: 20px !important;" src="<?php echo $qr_url; ?>" alt="QR Code do Ticket">
             <p class="padtop">Código:</p>
-            <h2 id="codQRCODE" style="color: #2f9e41 !important;"><?php echo $ticket['idTicket']; ?></h2>
+            <h2 id="codQRCODE" style="color: #2f9e41 !important; font-size:6vw !important"><?php echo $ticket['idTicket']; ?></h2>
+            <p><strong>Estudante:</strong> <?php echo $ticket['nome']; ?></p>
         </div>
     </div>
 </body>

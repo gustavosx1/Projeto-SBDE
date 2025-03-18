@@ -14,14 +14,16 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $dias = explode(",", $_POST["dias"]);
         $quantidadeDias = count($dias);
 
-        // Calcula o valor total corretamente
+        // Calcula o valor total: o primeiro dia tem preço especial e os demais dias têm preço extra
         $valorTotal = $precoPrimeiroDia + ($quantidadeDias - 1) * $precoDiasExtras;
 
+        // Converte a primeira data selecionada para o formato do banco (Y-m-d)
         $dataTicket = DateTime::createFromFormat('d/m/Y', reset($dias))->format('Y-m-d');
         
-        // Definir a validade do ticket para o mesmo dia às 19:00
-        $validadeTicket = $dataTicket . " 19:30:00";
+        // Define a validade do ticket para o mesmo dia às 19:30
+        $validadeTicket = $dataTicket . " 23:59:00";
 
+        // Verifica se o usuário está logado
         if (isset($_SESSION['usuario_id'])) {
             $usuario_id = $_SESSION['usuario_id'];
         } else {
@@ -31,48 +33,33 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
 
         try {
-            $stmt = $pdo->prepare("INSERT INTO ticket (idTicket, dataTicket, dataValidade, valorTicket, utilizado, pessoa_idPessoa) 
-                                   VALUES (UUID(), ?, ?, ?, 0, ?)");
-            $stmt->execute([$dataTicket, $validadeTicket, $valorTotal, $usuario_id]);
+            // Gera um ID único para o ticket (garante até 20 caracteres)
+            $ticket_id = uniqid();
 
-            $ticket_id = $pdo->lastInsertId();
+            // Insere o ticket na tabela "ticket"
+            $stmt = $pdo->prepare("INSERT INTO ticket (idPessoa, idTicket, dataTicket, dataValidade, tipoPagamento, dataCompra, valorTicket, utilizado) 
+                                   VALUES (?, ?, ?, ?, ?, CURDATE(), ?, 0)");
+            $stmt->execute([
+                $usuario_id,
+                $ticket_id,
+                $dataTicket,
+                $validadeTicket,
+                $metodoPagamento,
+                $valorTotal
+            ]);
 
-            $cartao_id = null;
-            if ($metodoPagamento == 'cartao') {
-                if (isset($_POST['cartao_id'])) {
-                    $cartao_id = $_POST['cartao_id'];
-                } else {
-                    echo "<script>alert('Selecione um cartão válido para o pagamento.');</script>";
-                    exit();
-                }
-            }
-
-            $stmtPagamento = $pdo->prepare("INSERT INTO pagamento (pessoa_idPessoa, ticket_idTicket, metodoPagamento, dataCompra, cartao_idCartao) 
-                                           VALUES (?, ?, ?, NOW(), ?)");
-            $stmtPagamento->execute([$usuario_id, $ticket_id, $metodoPagamento, $cartao_id]);
-
-            $stmtCarteira = $pdo->prepare("SELECT * FROM carteira WHERE pessoa_idPessoa = ? AND cartao_idCartao = ?");
-            $stmtCarteira->execute([$usuario_id, $cartao_id]);
-
-            if ($stmtCarteira->rowCount() == 0 && $metodoPagamento == 'cartao') {
-                $stmtCarteiraInsert = $pdo->prepare("INSERT INTO carteira (pessoa_idPessoa, cartao_idCartao) VALUES (?, ?)");
-                $stmtCarteiraInsert->execute([$usuario_id, $cartao_id]);
-            }
-
-            echo "<script>alert('Pagamento realizado com sucesso!');</script>";
+            echo "<script>alert('Ticket criado com sucesso!');</script>";
         } catch (PDOException $e) {
-            echo "<script>alert('Erro ao processar pagamento: " . $e->getMessage() . "');</script>";
+            echo "<script>alert('Erro ao criar ticket: " . $e->getMessage() . "');</script>";
         }
     } else {
-        echo "<script>alert('Selecione pelo menos um dia e método de pagamento antes de prosseguir.');</script>";
+        echo "<script>alert('Selecione pelo menos um dia e o método de pagamento antes de prosseguir.');</script>";
     }
 }
 ?>
 
-
 <!DOCTYPE html>
 <html lang="pt-BR">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -81,16 +68,15 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <?php include '../Inicio/config.php'; ?>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 </head>
-
 <body>
     <div class="topo white fullW">
         <div class="voltar">
             <a href="../Principal/menu.php">
-                <img src="../midia/voltar.png" alt="">
+                <img src="../midia/voltar.png" alt="Voltar">
                 <p>Voltar</p>
             </a>
         </div>
-        <img id="logo" src="../midia/QrMeal1.png" alt="">
+        <img id="logo" src="../midia/QrMeal1.png" alt="Logo">
     </div>
     <h3 class="colorWhite">Comprar Tickets</h3>
 
@@ -110,6 +96,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 <input type="radio" name="pagamento" id="cartao" value="cartao">
                 <label for="cartao">Cartão</label>
                 
+                <!-- A parte de seleção de cartão pode ser mantida para exibição,
+                     mas não é gravada na tabela "ticket" conforme a nova estrutura -->
                 <div id="cartaoSelecionado" style="display: none;">
                     <label for="cartao_id">Selecione o Cartão:</label>
                     <select name="cartao_id" id="cartao_id">
@@ -123,25 +111,26 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         </div>
     </div>
 
+    <!-- Scripts para o flatpickr e para manipulação dos elementos do formulário -->
     <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
             let precoPrimeiroDia = parseFloat(document.getElementById("valorTotal").dataset.precoPrimeiro);
             let precoExtra = parseFloat(document.getElementById("valorTotal").dataset.precoExtra);
-            let valorTotal = document.getElementById("valorTotal");
+            let valorTotalElem = document.getElementById("valorTotal");
             let inputDias = document.getElementById("diasSelecionados");
             let inputValorTotal = document.getElementById("valorTotalInput");
             let selectedDates = [];
 
             flatpickr("#calendario", {
                 locale: "pt",
-                mode: "multiple",
+                mode: "single",
                 dateFormat: "d/m/Y",
                 minDate: "today",
                 disable: [
                     function (date) {
-                        return date.getDay() === 0;
+                        return date.getDay() === 0; // Desabilita domingos
                     }
                 ],
                 onChange: function (dates, dateStr) {
@@ -149,7 +138,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     
                     let total = precoPrimeiroDia + (selectedDates.length - 1) * precoExtra;
 
-                    valorTotal.innerText = total.toFixed(2);
+                    valorTotalElem.innerText = total.toFixed(2);
                     inputDias.value = dateStr;
                     inputValorTotal.value = total.toFixed(2);
                 }
@@ -173,5 +162,4 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     </script>
 
 </body>
-
 </html>

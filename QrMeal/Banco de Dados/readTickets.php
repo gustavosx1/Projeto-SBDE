@@ -12,17 +12,35 @@ $usuario_id = $_SESSION['usuario_id'];
 try {
     // Consulta para obter todos os tickets do usuário
     $sql = "
-        SELECT * from ticket WHERE pessoa_idPessoa = ?;
-    ";
+        SELECT t.idTicket, t.dataTicket, t.dataValidade, t.valorTicket, t.utilizado
+        FROM ticket t
+        WHERE t.idPessoa = ?";  // Filtrar pelos tickets do usuário
 
     $stmt = $pdo->prepare($sql);
-    $stmt->bindValue(1, $usuario_id, PDO::PARAM_INT);
-    $stmt->execute();
+    $stmt->execute([$usuario_id]);
 
     $tickets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
 } catch (PDOException $e) {
     die("Erro ao buscar tickets: " . $e->getMessage());
+}
+
+// Verifica se o botão de "marcar como utilizado" foi clicado
+if (isset($_GET['utilizar_ticket_id'])) {
+    $ticket_id = $_GET['utilizar_ticket_id'];
+
+    try {
+        // Atualiza o ticket para marcar como utilizado (utilizado = 1)
+        $update_sql = "UPDATE ticket SET utilizado = 1 WHERE idTicket = ? AND idPessoa = ?";
+        $update_stmt = $pdo->prepare($update_sql);
+        $update_stmt->execute([$ticket_id, $usuario_id]);
+
+        // Redireciona de volta para a página após a atualização
+        header("Location: readTickets.php");
+        exit();
+    } catch (PDOException $e) {
+        die("Erro ao atualizar o ticket: " . $e->getMessage());
+    }
 }
 ?>
 
@@ -38,37 +56,20 @@ try {
 </head>
 
 <body>
-    <div class="topo">
-        <div class="voltar">
-            <a href="menu.php">
-                <img src="../midia/voltar.png" alt="Voltar">
-                <p>Voltar</p>
-            </a>
-        </div>
-    </div>
-
     <div class="info">
         <h3>Meus Tickets</h3>
         <?php if (count($tickets) > 0): ?>
-            <?php foreach ($tickets as $ticket): 
-                // Define a validade do ticket (até as 19h do dia da compra)
-                $data_compra = new DateTime($ticket['dataTicket']);
-                $validade = clone $data_compra;
-                $validade->setTime(19, 0, 0);
-
-                // Compara com a data atual
+            <?php foreach ($tickets as $ticket):
+                $validade = new DateTime($ticket['dataValidade']);
                 $agora = new DateTime();
                 $ticket_expirado = $agora > $validade;
                 $classe_ticket = $ticket_expirado ? 'desativado' : '';
-
-                // Verifica se o ticket já foi utilizado
                 $ticket_utilizado = $ticket['utilizado'] == 1;
             ?>
-                <div class="ticket-item <?php echo $classe_ticket; ?>">
-                    <p><strong>Compra:</strong> <?php echo date('d/m/Y - H:i', strtotime($ticket['dataTicket'])); ?></p>
+                <div class="button ticket <?php echo $classe_ticket; ?>">
+                    <p><strong>Compra:</strong> <?php echo date('d/m/Y', strtotime($ticket['dataTicket'])); ?></p>
                     <h2><strong>Código:</strong> <?php echo htmlspecialchars($ticket['idTicket']); ?></h2>
                     <p><strong>Validade:</strong> <?php echo date('d/m/Y - H:i', strtotime($ticket['dataValidade'])); ?></p>
-                    <p><strong>Valor:</strong> R$ <?php echo number_format($ticket['valorTicket'], 2, ',', '.'); ?></p>
 
                     <?php if ($ticket_utilizado): ?>
                         <p style="color: red; font-weight: bold;">Ticket já utilizado</p>
@@ -77,6 +78,10 @@ try {
                             <img src="../midia/qrcode.png" alt="QR Code">
                             <p>Ver QRCODE</p>
                         </button>
+                        <!-- Botão para marcar como utilizado -->
+                        <a href="?utilizar_ticket_id=<?php echo $ticket['idTicket']; ?>" class="button btwhite">
+                            Marcar como Utilizado
+                        </a>
                     <?php else: ?>
                         <p style="color: red; font-weight: bold;">Ticket expirado</p>
                     <?php endif; ?>
@@ -84,7 +89,7 @@ try {
             <?php endforeach; ?>
 
         <?php else: ?>
-            <p>Nenhum ticket encontrado.</p>
+            <p style="color: white;">Nenhum ticket encontrado.</p>
         <?php endif; ?>
     </div>
 </body>

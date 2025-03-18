@@ -28,7 +28,7 @@ if (!isset($_SESSION['usuario_id'])) {
             <p>Sair</p>
         </a>
     </div>
-    <h3 class="colorWhite">Bem-vindo<br><?php echo htmlspecialchars($_SESSION['usuario_nome']); ?>!</h3>
+    <h2 class="colorWhite">Bem-vindo<br><?php echo htmlspecialchars($_SESSION['usuario_nome']); ?>!</h2>
     <div class="info menu">
         <?php if (isset($erro)): ?>
             <p class="erro"><?php echo $erro; ?></p>

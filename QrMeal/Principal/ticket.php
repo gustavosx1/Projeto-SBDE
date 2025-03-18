@@ -14,15 +14,20 @@ $pagina_atual = isset($_GET['pagina']) ? (int)$_GET['pagina'] : 1;
 $offset = ($pagina_atual - 1) * $por_pagina;
 
 $mostrarNaoUtilizados = isset($_GET['nao_utilizados']) ? true : false;
+$mostrarUtilizados = isset($_GET['utilizados']) ? true : false;
 
 try {
+    // Modificado para pegar tickets de um usuário específico
     $sql = "
         SELECT t.idTicket, t.dataTicket, t.dataValidade, t.valorTicket, t.utilizado
         FROM ticket t
-        WHERE t.pessoa_idPessoa = ?";
+        WHERE t.idPessoa = ?";
 
+    // Verificando o filtro e ajustando a consulta
     if ($mostrarNaoUtilizados) {
         $sql .= " AND t.utilizado = 0";
+    } elseif ($mostrarUtilizados) {
+        $sql .= " AND t.utilizado = 1";
     }
 
     $sql .= " ORDER BY t.dataTicket DESC LIMIT ? OFFSET ?";
@@ -35,14 +40,17 @@ try {
 
     $tickets = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
+    // Corrigido: apenas prepara uma vez a consulta para contar os tickets
     $stmt_total = $pdo->prepare("
-        SELECT COUNT(*) as total FROM ticket t
-        WHERE t.pessoa_idPessoa = ?");
+        SELECT COUNT(*) as total
+        FROM ticket t
+        WHERE t.idPessoa = ?");
 
+    // Adiciona a condição de filtro de "utilizado" ou "não utilizado" diretamente na consulta
     if ($mostrarNaoUtilizados) {
-        $stmt_total = $pdo->prepare("
-            SELECT COUNT(*) as total FROM ticket t
-            WHERE t.pessoa_idPessoa = ? AND t.utilizado = 0");
+        $stmt_total->bindValue(2, 0, PDO::PARAM_INT); // Filtro para não utilizados
+    } elseif ($mostrarUtilizados) {
+        $stmt_total->bindValue(2, 1, PDO::PARAM_INT); // Filtro para utilizados
     }
 
     $stmt_total->execute([$usuario_id]);
@@ -53,6 +61,7 @@ try {
     die("Erro ao buscar tickets: " . $e->getMessage());
 }
 ?>
+
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -66,10 +75,10 @@ try {
 </head>
 
 <body>
-    <div class="topo">
+    <div class="topo fullW">
         <div class="voltar">
             <a href="menu.php">
-                <img src="../midia/voltar.png" alt="">
+                <img src="../midia/voltar.png" alt="Voltar">
                 <p>Voltar</p>
             </a>
         </div>
@@ -79,8 +88,11 @@ try {
         <a href="?nao_utilizados=1">
             <button class="<?php echo ($mostrarNaoUtilizados) ? 'ativo' : ''; ?>">Mostrar Somente Não Utilizados</button>
         </a>
+        <a href="?utilizados=1">
+            <button class="<?php echo ($mostrarUtilizados) ? 'ativo' : ''; ?>">Mostrar Somente Utilizados</button>
+        </a>
         <a href="?">
-            <button class="<?php echo (!$mostrarNaoUtilizados) ? 'ativo' : ''; ?>">Mostrar Todos</button>
+            <button class="<?php echo (!$mostrarNaoUtilizados && !$mostrarUtilizados) ? 'ativo' : ''; ?>">Mostrar Todos</button>
         </a>
     </div>
 
@@ -89,17 +101,15 @@ try {
         <?php if (count($tickets) > 0): ?>
             <?php foreach ($tickets as $ticket):
                 $validade = new DateTime($ticket['dataValidade']);
-
                 $agora = new DateTime();
                 $ticket_expirado = $agora > $validade;
                 $classe_ticket = $ticket_expirado ? 'desativado' : '';
-
                 $ticket_utilizado = $ticket['utilizado'] == 1;
             ?>
                 <div class="button ticket <?php echo $classe_ticket; ?>">
-                    <p><strong>Compra:</strong> <?php echo date('d/m/Y - H:i', strtotime($ticket['dataTicket'])); ?></p>
+                    <p><strong>Dia do ticket:</strong> <?php echo date('d/m/Y', strtotime($ticket['dataTicket'])); ?></p>
                     <h2><strong>Código:</strong> <?php echo htmlspecialchars($ticket['idTicket']); ?></h2>
-                    <p><strong>Validade:</strong> <?php echo date('d/m/Y - H:i', strtotime($ticket['dataValidade'])); ?></p>
+                    <p><strong>Validade:</strong> <?php echo date('H:i', strtotime($ticket['dataValidade'])); ?></p>
 
                     <?php if ($ticket_utilizado): ?>
                         <p style="color: red; font-weight: bold;">Ticket já utilizado</p>
@@ -108,7 +118,6 @@ try {
                             <img src="../midia/qrcode.png" alt="QR Code">
                             <p>Ver QRCODE</p>
                         </button>
-
                     <?php else: ?>
                         <p style="color: red; font-weight: bold;">Ticket expirado</p>
                     <?php endif; ?>

@@ -1,31 +1,36 @@
 <?php
-if (isset($_SESSION['usuario_id'])) {
-    header("Location: ../Principal/menu.php");
-    exit();
-}
-
 session_start();
+
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require '../Banco de Dados/conexao.php';
-
+    
     $codigo = $_POST['codigo'];
     $senha = $_POST['senha'];
-
+    
     $stmt = $pdo->prepare("SELECT * FROM pessoa WHERE idPessoa = ?");
     $stmt->execute([$codigo]);
     $usuario = $stmt->fetch();
-
+    
     if ($usuario && password_verify($senha, $usuario['senha'])) {
         $_SESSION['usuario_id'] = $usuario['idPessoa'];
         $_SESSION['usuario_nome'] = $usuario['nome'];
-        header("Location: ../Principal/menu.php");
+        
+        // Verificar se o usuário é funcionário
+        if ($usuario['tipoPessoa'] == 'Funcionario') {  // Altere 'cargo' para o nome real da coluna que identifica o tipo
+            header("Location: ../Principal/menuFunc.php");
+        } else {
+            header("Location: ../Principal/menu.php");
+        }
         exit();
     } else {
         $erro = "Código ou senha incorretos.";
     }
 }
+if (isset($_SESSION['usuario_id'])) {
+    header("Location: ../Principal/menu.php");
+    exit();
+}
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-BR">

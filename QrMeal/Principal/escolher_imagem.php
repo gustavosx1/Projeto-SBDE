@@ -1,29 +1,26 @@
 <?php
 session_start();
-require '../Banco de Dados/conexao.php'; // Certifique-se de que esse arquivo conecta corretamente ao banco de dados
+require '../Banco de Dados/conexao.php';
 
-$usuario_id = $_SESSION['usuario_id']; // Obtendo o ID do usuário logado
+$usuario_id = $_SESSION['usuario_id'];
 
 if (!isset($pdo)) {
     die("Erro na conexão com o banco de dados.");
 }
 
-// Verifica se o usuário já tem uma foto cadastrada
 $sql = "SELECT foto FROM pessoa WHERE idPessoa = ?";
 $stmt = $pdo->prepare($sql);
 $stmt->execute([$usuario_id]);
 $usuario = $stmt->fetch(PDO::FETCH_ASSOC);
 
 if ($usuario && !empty($usuario['foto'])) {
-    // Se já houver imagem, redireciona para o perfil
     header("Location: perfil.php");
     exit();
 }
 
 if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
-    $diretorio = '../uploads/'; // Pasta onde as imagens serão salvas
+    $diretorio = '../../uploads/';
     
-    // Criando diretório se não existir
     if (!is_dir($diretorio)) {
         mkdir($diretorio, 0777, true);
     }
@@ -41,7 +38,6 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_FILES['foto'])) {
                 $stmt = $pdo->prepare($sql);
                 $stmt->execute([$caminho_arquivo, $usuario_id]);
                 
-                // Redireciona para o perfil após o upload bem-sucedido
                 header("Location: perfil.php");
                 exit();
             } catch (PDOException $e) {
