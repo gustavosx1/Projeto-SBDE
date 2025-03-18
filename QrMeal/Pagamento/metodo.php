@@ -20,7 +20,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $dataTicket = DateTime::createFromFormat('d/m/Y', reset($dias))->format('Y-m-d');
         
         // Definir a validade do ticket para o mesmo dia às 19:00
-        $validadeTicket = $dataTicket . " 19:00:00";
+        $validadeTicket = $dataTicket . " 19:30:00";
 
         if (isset($_SESSION['usuario_id'])) {
             $usuario_id = $_SESSION['usuario_id'];
