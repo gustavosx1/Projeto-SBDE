@@ -1,14 +1,11 @@
 <?php
 session_start();
 
-<<<<<<< HEAD
-=======
 if (isset($_SESSION['usuario_id'])) {
     header("Location: ../Principal/menu.php");
     exit();
 }
 
->>>>>>> 3a81e781d88bf62207b87699827889b43b78c154
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require '../Banco de Dados/conexao.php';
     
@@ -22,17 +19,11 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($usuario && password_verify($senha, $usuario['senha'])) {
         $_SESSION['usuario_id'] = $usuario['idPessoa'];
         $_SESSION['usuario_nome'] = $usuario['nome'];
-<<<<<<< HEAD
-        
-        // Verificar se o usuário é funcionário
-        if ($usuario['tipoPessoa'] == 'Funcionario') {  // Altere 'cargo' para o nome real da coluna que identifica o tipo
-            header("Location: ../Principal/menuFunc.php");
-=======
+
 
         // Verifica se é funcionário
         if ($usuario['tipoPessoa'] === 'Funcionário') {
             header("Location: ../Principal/menufunc.php");
->>>>>>> 3a81e781d88bf62207b87699827889b43b78c154
         } else {
             header("Location: ../Principal/menu.php");
         }
