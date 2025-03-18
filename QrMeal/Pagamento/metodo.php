@@ -1,7 +1,8 @@
 <?php
 session_start();
 
-$precoTicket = 3.00;
+$precoPrimeiroDia = 3.00;
+$precoDiasExtras = 15.00;
 $validadeTicket = null;
 $dataTicket = null;
 
@@ -12,12 +13,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $metodoPagamento = $_POST["pagamento"];
         $dias = explode(",", $_POST["dias"]);
         $quantidadeDias = count($dias);
-        $valorTotal = $quantidadeDias * $precoTicket;
+
+        // Calcula o valor total corretamente
+        $valorTotal = $precoPrimeiroDia + ($quantidadeDias - 1) * $precoDiasExtras;
 
         $dataTicket = DateTime::createFromFormat('d/m/Y', reset($dias))->format('Y-m-d');
         
-        // Definir a validade como dataTicket + 1 dia
-        $validadeTicket = date("Y-m-d 23:59:59", strtotime($dataTicket . ' +1 day'));
+        // Definir a validade do ticket para o mesmo dia às 19:00
+        $validadeTicket = $dataTicket . " 19:00:00";
 
         if (isset($_SESSION['usuario_id'])) {
             $usuario_id = $_SESSION['usuario_id'];
@@ -67,8 +70,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 ?>
 
 
-
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -98,7 +99,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <input type="text" id="calendario" name="calendario" placeholder="Escolha os dias">
 
         <div class="button btwhite">
-            <p>Valor total: R$ <span id="valorTotal" data-preco="<?php echo $precoTicket; ?>">0.00</span></p>
+            <p>Valor total: R$ <span id="valorTotal" data-preco-primeiro="<?php echo $precoPrimeiroDia; ?>" data-preco-extra="<?php echo $precoDiasExtras; ?>">0.00</span></p>
             <form method="POST" id="pagamento">
                 <input type="hidden" name="dias" id="diasSelecionados">
                 <input type="hidden" name="valor" id="valorTotalInput">
@@ -126,7 +127,8 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     <script src="https://cdn.jsdelivr.net/npm/flatpickr/dist/l10n/pt.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function () {
-            let precoTicket = parseFloat(document.getElementById("valorTotal").dataset.preco);
+            let precoPrimeiroDia = parseFloat(document.getElementById("valorTotal").dataset.precoPrimeiro);
+            let precoExtra = parseFloat(document.getElementById("valorTotal").dataset.precoExtra);
             let valorTotal = document.getElementById("valorTotal");
             let inputDias = document.getElementById("diasSelecionados");
             let inputValorTotal = document.getElementById("valorTotalInput");
@@ -144,7 +146,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                 ],
                 onChange: function (dates, dateStr) {
                     selectedDates = dates;
-                    let total = selectedDates.length * precoTicket;
+                    
+                    let total = precoPrimeiroDia + (selectedDates.length - 1) * precoExtra;
+
                     valorTotal.innerText = total.toFixed(2);
                     inputDias.value = dateStr;
                     inputValorTotal.value = total.toFixed(2);
