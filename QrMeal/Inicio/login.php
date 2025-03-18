@@ -1,10 +1,11 @@
 <?php
+session_start();
+
 if (isset($_SESSION['usuario_id'])) {
     header("Location: ../Principal/menu.php");
     exit();
 }
 
-session_start();
 if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     require '../Banco de Dados/conexao.php';
 
@@ -18,14 +19,19 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     if ($usuario && password_verify($senha, $usuario['senha'])) {
         $_SESSION['usuario_id'] = $usuario['idPessoa'];
         $_SESSION['usuario_nome'] = $usuario['nome'];
-        header("Location: ../Principal/menu.php");
+
+        // Verifica se é funcionário
+        if ($usuario['tipoPessoa'] === 'Funcionário') {
+            header("Location: ../Principal/menufunc.php");
+        } else {
+            header("Location: ../Principal/menu.php");
+        }
         exit();
     } else {
         $erro = "Código ou senha incorretos.";
     }
 }
 ?>
-
 
 <!DOCTYPE html>
 <html lang="pt-BR">
